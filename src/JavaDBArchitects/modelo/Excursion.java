@@ -1,23 +1,33 @@
 package JavaDBArchitects.modelo;
 
+import jakarta.persistence.*; // Cambia a JPA de Jakarta
 import java.util.Date;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 
-/**
- * Clase que representa una excursión en el sistema.
- * Cada excursión tiene un código, una descripción, una fecha de inicio, un número de días
- * y un precio de inscripción.
- */
- public class Excursion {
-    private String idExcursion; // Cambiado de "codigo" a "idExcursion"
+@Entity // Define esta clase como una entidad JPA
+@Table(name = "Excursiones") // Mapea esta clase con la tabla "Excursiones" en la base de datos
+public class Excursion {
+
+    @Id // Indica que este campo es la clave primaria
+    @Column(name = "idExcursion") // Mapea con la columna "idExcursion"
+    private String idExcursion;
+
+    @Column(name = "descripcion", nullable = false) // Mapea con la columna "descripcion"
     private String descripcion;
+
+    @Temporal(TemporalType.DATE) // Indica que este campo es un tipo de fecha
+    @Column(name = "fecha", nullable = false) // Mapea con la columna "fecha"
     private Date fecha;
+
+    @Column(name = "num_dias", nullable = false) // Mapea con la columna "num_dias"
     private int numDias;
+
+    @Column(name = "precio", nullable = false) // Mapea con la columna "precio"
     private float precioInscripcion;
 
-    // Constructor actualizado
+    // Constructor sin parámetros requerido por JPA
+    public Excursion() {}
+
+    // Constructor completo para inicializar la entidad
     public Excursion(String idExcursion, String descripcion, Date fecha, int numDias, float precioInscripcion) {
         this.idExcursion = idExcursion;
         this.descripcion = descripcion;
@@ -26,10 +36,7 @@ import java.time.format.DateTimeFormatter;
         this.precioInscripcion = precioInscripcion;
     }
 
-
-    // Getters y setters estándar para acceder y modificar los atributos de la clase.
-    // Permiten obtener o establecer el código, descripción, fecha, número de días y precio de inscripción.
-
+    // Getters y setters (sin cambios respecto a tu versión actual)
     public String getIdExcursion() {
         return idExcursion;
     }
@@ -50,41 +57,8 @@ import java.time.format.DateTimeFormatter;
         return fecha;
     }
 
-    /**
-     * Método para obtener la fecha de la excursión en formato LocalDate.
-     *
-     * @return La fecha de la excursión como LocalDate.
-     */
-    public LocalDate getFechaAsLocalDate() {
-        if (fecha instanceof java.sql.Date) {
-            // Convertir java.sql.Date a java.time.LocalDate directamente
-            return ((java.sql.Date) fecha).toLocalDate();
-        } else {
-            // Convertir java.util.Date a LocalDate usando Instant
-            return fecha.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        }
-    }
-
-    /**
-     * Calcula la fecha de finalización de la excursión en base al número de días.
-     *
-     * @return La fecha de finalización de la excursión.
-     */
-    public LocalDate calcularFechaFin() {
-        return getFechaAsLocalDate().plusDays(numDias - 1); // Calcular días de la excursión
-    }
-
     public void setFecha(Date fecha) {
         this.fecha = fecha;
-    }
-
-    /**
-     * Método para establecer la fecha usando un LocalDate.
-     *
-     * @param fechaLocalDate La fecha a establecer como LocalDate.
-     */
-    public void setFecha(LocalDate fechaLocalDate) {
-        this.fecha = Date.from(fechaLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
     }
 
     public int getNumDias() {
@@ -103,26 +77,15 @@ import java.time.format.DateTimeFormatter;
         this.precioInscripcion = precioInscripcion;
     }
 
-    /**
-     * Proporciona una representación en texto de la excursión,
-     * mostrando el código, descripción, fecha, número de días y el precio de inscripción.
-     *
-     * @return Representación en texto de los datos de la excursión.
-     */
+    // Sobrescribir el método toString para facilitar el uso en logs o debugging
     @Override
     public String toString() {
-        String newPrecio; // Cambiar formato del precio en función si es entero o float
-        if (precioInscripcion % 1 == 0) {
-            newPrecio = String.format("%d", (int) precioInscripcion); // Si es entero
-        } else {
-            newPrecio = String.format("%.2f", precioInscripcion); // Si es float
-        }
-
-        return "Código: " + idExcursion + "\n" +
-                "Descripción: " + descripcion + "\n" +
-                "Fecha: " + getFechaAsLocalDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + "\n" +
-                "Número de días: " + numDias + "\n" +
-                "Precio inscripción: " + newPrecio + " €";
+        return "Excursion{" +
+                "idExcursion='" + idExcursion + '\'' +
+                ", descripcion='" + descripcion + '\'' +
+                ", fecha=" + fecha +
+                ", numDias=" + numDias +
+                ", precioInscripcion=" + precioInscripcion +
+                '}';
     }
 }
-
