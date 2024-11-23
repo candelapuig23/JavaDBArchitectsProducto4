@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "estandars")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Estandar extends Socio {
 
     @Column(name = "nif")

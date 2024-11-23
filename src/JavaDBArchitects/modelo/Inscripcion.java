@@ -26,7 +26,7 @@ public class Inscripcion {
     private Socio socio;  // Socio asociado a la inscripción
 
     @ManyToOne
-    @JoinColumn(name = "id_excursion", referencedColumnName = "idExcursion")
+    @JoinColumn(name = "idEexcursion", referencedColumnName = "idExcursion")
     private Excursion excursion;  // Excursión asociada a la inscripción
 
     @Column(name = "fecha_inscripcion", nullable = false)

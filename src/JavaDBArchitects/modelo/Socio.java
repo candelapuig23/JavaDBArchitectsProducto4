@@ -8,14 +8,14 @@ import java.math.BigDecimal;
  * Contiene atributos comunes para todos los tipos de socios.
  */
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE) // Puedes usar JOINED o TABLE_PER_CLASS según tu diseño
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)  // Puedes usar JOINED o TABLE_PER_CLASS según tu diseño
 @DiscriminatorColumn(name = "tipo_socio", discriminatorType = DiscriminatorType.STRING)
 @Table(name = "socios")
 public abstract class Socio {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "numero_socio")
+    @Column(name = "numeroSocio")
     private int numeroSocio;
 
     @Column(nullable = false)

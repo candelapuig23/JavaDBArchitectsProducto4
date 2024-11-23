@@ -9,7 +9,7 @@ public class Excursion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_excursion")
+    @Column(name = "idExcursion")
     private int id;
 
     @Column(name = "codigo", nullable = false)

@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "infantiles")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Infantil extends Socio {
 
     @Column(name = "num_socio_padre")
