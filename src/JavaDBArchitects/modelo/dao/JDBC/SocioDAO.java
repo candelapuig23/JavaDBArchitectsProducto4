@@ -1,4 +1,4 @@
-package JavaDBArchitects.modelo.dao;
+package JavaDBArchitects.modelo.dao.JDBC;
 
 import JavaDBArchitects.modelo.*;
 import jakarta.persistence.EntityManager;

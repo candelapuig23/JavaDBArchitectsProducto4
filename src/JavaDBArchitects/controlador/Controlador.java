@@ -3,6 +3,7 @@ package JavaDBArchitects.controlador;
 import JavaDBArchitects.controlador.excepciones.*;
 import JavaDBArchitects.modelo.*;
 import JavaDBArchitects.modelo.dao.*;
+import JavaDBArchitects.modelo.dao.JDBC.*;
 import JavaDBArchitects.vista.MenuPrincipal;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
