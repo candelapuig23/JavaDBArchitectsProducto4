@@ -1,121 +1,125 @@
 package JavaDBArchitects.modelo.dao;
 
 import JavaDBArchitects.modelo.Federacion;
-import JavaDBArchitects.modelo.conexion.DatabaseConnection;
 
-import java.sql.*;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
+import jakarta.persistence.TypedQuery;
+
+import java.util.List;
 
 public class FederacionDAO {
 
-    public void addFederacion(Federacion federacion, Connection connection) throws SQLException {
-        String query = "INSERT INTO federaciones (nombre) VALUES (?)";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+    private EntityManagerFactory emf;
 
-            preparedStatement.setString(1, federacion.getNombre());
-            preparedStatement.executeUpdate();
+    // Constructor para inicializar el EntityManagerFactory
+    public FederacionDAO() {
+        this.emf = Persistence.createEntityManagerFactory("JavaDBArchitectsPU");
+    }
 
-            // Obtener el id_federacion generado y asignarlo a la instancia de Federacion
-            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                federacion.setId_federacion(generatedKeys.getInt(1));
-                System.out.println("Federación añadida: ID = " + federacion.getId_federacion() + ", Nombre = " + federacion.getNombre());
-            } else {
-                System.out.println("No se pudo obtener el ID generado.");
-            }
-
-        } catch (SQLException e) {
+    // Método para agregar una federación a la base de datos
+    public void addFederacion(Federacion federacion) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.persist(federacion); // Guardar la federación en la base de datos
+            em.getTransaction().commit();
+            System.out.println("Federación añadida: " + federacion);
+        } catch (Exception e) {
+            em.getTransaction().rollback();
             e.printStackTrace();
-            throw e;  // Rethrow para que SocioDAO maneje la excepción
+        } finally {
+            em.close();
         }
     }
 
-
-    // Método para obtener una federación por su id_federacion
-    public Federacion getFederacionById(int id_federacion) {
-        String query = "SELECT * FROM federaciones WHERE id_federacion = ?";
+    // Método para obtener una federación por su ID
+    public Federacion getFederacionById(int idFederacion) {
+        EntityManager em = emf.createEntityManager();
         Federacion federacion = null;
-
-        try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-
-            if (connection == null || connection.isClosed()) {
-                System.out.println("Conexión fallida en getFederacionById.");
-                return null;
-            }
-
-            preparedStatement.setInt(1, id_federacion);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            if (resultSet.next()) {
-                String nombre = resultSet.getString("nombre");
-                federacion = new Federacion(id_federacion, nombre);
-                System.out.println("Federación obtenida: ID = " + federacion.getId_federacion() + ", Nombre = " + federacion.getNombre());
+        try {
+            federacion = em.find(Federacion.class, idFederacion); // Buscar la federación por su ID
+            if (federacion != null) {
+                System.out.println("Federación obtenida: " + federacion);
             } else {
-                System.out.println("Federación no encontrada con ID: " + id_federacion);
+                System.out.println("No se encontró ninguna federación con ID: " + idFederacion);
             }
-
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            em.close();
         }
-
         return federacion;
+    }
+
+    // Método para obtener todas las federaciones
+    public List<Federacion> getAllFederaciones() {
+        EntityManager em = emf.createEntityManager();
+        List<Federacion> federaciones = null;
+        try {
+            TypedQuery<Federacion> query = em.createQuery("SELECT f FROM Federacion f", Federacion.class);
+            federaciones = query.getResultList();
+            System.out.println("Federaciones obtenidas: " + federaciones);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+        return federaciones;
+    }
+
+    // Método para actualizar una federación en la base de datos
+    public void updateFederacion(Federacion federacion) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.merge(federacion); // Actualizar la federación
+            em.getTransaction().commit();
+            System.out.println("Federación actualizada: " + federacion);
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
+
+    // Método para eliminar una federación por su ID
+    public void deleteFederacion(int idFederacion) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            Federacion federacion = em.find(Federacion.class, idFederacion);
+            if (federacion != null) {
+                em.getTransaction().begin();
+                em.remove(federacion); // Eliminar la federación
+                em.getTransaction().commit();
+                System.out.println("Federación eliminada con éxito con ID: " + idFederacion);
+            } else {
+                System.out.println("No se encontró ninguna federación con ID: " + idFederacion);
+            }
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
     }
 
     // Método para limpiar todas las federaciones
     public void clearFederaciones() {
-        String query = "DELETE FROM federaciones";
-        try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-
-            int affectedRows = preparedStatement.executeUpdate();
-            System.out.println("Tabla federaciones limpiada. Filas afectadas: " + affectedRows);
-
-        } catch (SQLException e) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.createQuery("DELETE FROM Federacion").executeUpdate();
+            em.getTransaction().commit();
+            System.out.println("Todas las federaciones han sido eliminadas.");
+        } catch (Exception e) {
+            em.getTransaction().rollback();
             e.printStackTrace();
+        } finally {
+            em.close();
         }
     }
-    // Método para actualizar una federación en la base de datos por su ID
-    public void updateFederacion(Federacion federacion) {
-        String query = "UPDATE federaciones SET nombre = ? WHERE id_federacion = ?";
-        try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-
-            // Establecer los parámetros de la consulta
-            preparedStatement.setString(1, federacion.getNombre());
-            preparedStatement.setInt(2, federacion.getId_federacion());
-
-            // Ejecutar la actualización
-            int rowsAffected = preparedStatement.executeUpdate();
-            if (rowsAffected > 0) {
-                System.out.println("Federación actualizada con éxito: " + federacion.getId_federacion());
-            } else {
-                System.out.println("No se encontró ninguna federación con ID: " + federacion.getId_federacion());
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-    // Método para eliminar una federación de la base de datos por su ID
-    public void deleteFederacion(int id_federacion) {
-        String query = "DELETE FROM federaciones WHERE id_federacion = ?";
-        try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-
-            // Establece el parámetro de la consulta
-            preparedStatement.setInt(1, id_federacion);
-
-            // Ejecuta la eliminación
-            int rowsAffected = preparedStatement.executeUpdate();
-            if (rowsAffected > 0) {
-                System.out.println("Federación eliminada con éxito con ID: " + id_federacion);
-            } else {
-                System.out.println("No se encontró ninguna federación con ID: " + id_federacion);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
 }
+

@@ -1,17 +1,27 @@
 package JavaDBArchitects.modelo;
 
+import jakarta.persistence.*;
 import java.math.BigDecimal;
 
+@Entity
+@Table(name = "estandars")
 public class Estandar extends Socio {
 
+    @Column(name = "nif")
     private String NIF;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_seguro", referencedColumnName = "id_seguro")
     private Seguro seguro;
 
-    public Estandar(int numeroSocio, String nombre, String NIF, Seguro seguro, BigDecimal cuotaMensual) {
-        super(numeroSocio, nombre, "ESTANDAR", NIF, seguro != null ? seguro.getTipo() : null, null, null, cuotaMensual);
-        this.NIF = NIF;
-        this.seguro = seguro;
+    public Estandar() {}
+
+    public Estandar(String nombre, String nif, TipoSeguro tipoSeguro, BigDecimal cuotaMensual) {
+        super(0, nombre, "ESTANDAR", nif, tipoSeguro, null, null, cuotaMensual);
+        this.NIF = nif;
+        this.seguro = new Seguro(tipoSeguro, cuotaMensual.floatValue());
     }
+
 
     @Override
     public double calcularCuotaMensual() {

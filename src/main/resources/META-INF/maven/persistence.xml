@@ -11,9 +11,13 @@
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
             <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/producto3"/>
             <property name="jakarta.persistence.jdbc.user" value="root"/>
-            <property name="jakarta.persisºtence.jdbc.password" value="password"/>
+            <property name="jakarta.persistence.jdbc.password" value="password"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"/>
             <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.use_sql_comments" value="true"/>
+
         </properties>
     </persistence-unit>
 </persistence>
