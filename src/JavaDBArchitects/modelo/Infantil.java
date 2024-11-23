@@ -1,29 +1,23 @@
 package JavaDBArchitects.modelo;
 
-import jakarta.persistence.*;
 import java.math.BigDecimal;
 
-@Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Infantil extends Socio {
 
-    @Column(name = "num_socio_padre")
     private Integer numSocioPadreOMadre;
 
-    public Infantil() {}
-
-    public Infantil(String nombre, Integer numSocioPadreOMadre, BigDecimal cuotaMensual) {
-        super(0, nombre, "INFANTIL", null, null, null, numSocioPadreOMadre, cuotaMensual);
+    public Infantil(int numeroSocio, String nombre, Integer numSocioPadreOMadre, BigDecimal cuotaMensual) {
+        super(numeroSocio, nombre, "INFANTIL", null, null, null, numSocioPadreOMadre, cuotaMensual);
         this.numSocioPadreOMadre = numSocioPadreOMadre;
     }
-
 
     @Override
     public double calcularCuotaMensual() {
         return getCuotaMensual().doubleValue();
     }
 
-    public Integer getNumSocioPadreOMadre() {
+    public
+    Integer getNumSocioPadreOMadre() {
         return numSocioPadreOMadre;
     }
 
@@ -41,6 +35,8 @@ public class Infantil extends Socio {
                 getNumeroSocio(), getNombre(), numSocioPadreOMadre, getCuotaMensual());
     }
 }
+
+
 
 
 

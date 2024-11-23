@@ -1,47 +1,36 @@
 package JavaDBArchitects.modelo;
 
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "Federaciones") // Asegúrate de que el nombre coincide con la tabla en tu base de datos
+// Clase Federacion: Representa una federación a la que un socio federado puede estar asociado
 public class Federacion {
 
     // Atributos de la federación:
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-incremental
-    @Column(name = "id_federacion")
-    private int idFederacion;
-
-    @Column(name = "nombre", nullable = false)
+    private int id_federacion;
     private String nombre;
 
-    // Constructor vacío necesario para JPA
-    public Federacion() {
-    }
-
     // Constructor solo con id_federacion
-    public Federacion(int idFederacion) {
-        this.idFederacion = idFederacion;
+    public Federacion(int id_federacion) {
+        this.id_federacion = id_federacion;
     }
-
-    // Constructor solo con el nombre
+    // Constructor para solo el nombre
     public Federacion(String nombre) {
         this.nombre = nombre;
     }
 
-    // Constructor completo
-    public Federacion(int idFederacion, String nombre) {
-        this.idFederacion = idFederacion;
+    // Constructor completo con id_federacion y nombre
+    public Federacion(int id_federacion, String nombre) {
+        this.id_federacion = id_federacion;
         this.nombre = nombre;
     }
 
-    // Getters y Setters
-    public int getIdFederacion() {
-        return idFederacion;
+    // Constructor sin id_federacion para otros usos, si es necesario
+    public int getId_federacion() {
+        return id_federacion;
     }
 
-    public void setIdFederacion(int idFederacion) {
-        this.idFederacion = idFederacion;
+
+
+    public void setId_federacion(int id_federacion) {
+        this.id_federacion = id_federacion;
     }
 
     public String getNombre() {
@@ -55,7 +44,6 @@ public class Federacion {
     // Método toString para proporcionar una representación en texto de la clase Federacion
     @Override
     public String toString() {
-        return "ID Federación: " + idFederacion + '\n' +
-                "Nombre: " + nombre + '\n';
+        return "ID Federación: " + id_federacion + '\n' + "Nombre: " + nombre + '\n';
     }
 }

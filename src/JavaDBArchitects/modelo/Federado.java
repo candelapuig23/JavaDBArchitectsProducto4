@@ -1,24 +1,15 @@
 package JavaDBArchitects.modelo;
 
-import jakarta.persistence.*;
 import java.math.BigDecimal;
 
-@Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Federado extends Socio {
 
-    @Column(name = "nif", insertable = false, updatable = false)
     private String NIF;
-
-    @ManyToOne
-    @JoinColumn(name = "id_federacion", referencedColumnName = "id_federacion", insertable = false, updatable = false)
     private Federacion federacion;
 
-    public Federado() {}
-
-    public Federado(String nombre, String nif, Federacion federacion, BigDecimal cuotaMensual) {
-        super(0, nombre, "FEDERADO", nif, null, federacion != null ? federacion.getIdFederacion() : null, null, cuotaMensual);
-        this.NIF = nif;
+    public Federado(int numeroSocio, String nombre, String NIF, Federacion federacion, BigDecimal cuotaMensual) {
+        super(numeroSocio, nombre, "FEDERADO", NIF, null, federacion != null ? federacion.getId_federacion() : null, null, cuotaMensual);
+        this.NIF = NIF;
         this.federacion = federacion;
     }
 
@@ -51,6 +42,6 @@ public class Federado extends Socio {
                         "NIF: '%s'\n" +
                         "%s\n" +
                         "Cuota Mensual: %s€\n",
-                getNumeroSocio(), getNombre(), NIF, federacion != null ? federacion.toString() : "Sin federación", getCuotaMensual());
+                getNumeroSocio(), getNombre(), NIF, federacion.toString(), getCuotaMensual());
     }
 }

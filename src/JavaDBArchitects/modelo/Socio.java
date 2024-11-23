@@ -1,49 +1,32 @@
 package JavaDBArchitects.modelo;
-
-import jakarta.persistence.*;
 import java.math.BigDecimal;
+
 
 /**
  * Clase abstracta Socio: Representa a un socio del centro.
  * Contiene atributos comunes para todos los tipos de socios.
  */
-@Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)  // Puedes usar JOINED o TABLE_PER_CLASS según tu diseño
-@DiscriminatorColumn(name = "tipo_socio", discriminatorType = DiscriminatorType.STRING)
-@Table(name = "socios")
 public abstract class Socio {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "numeroSocio")
-    private int numeroSocio;
-
-    @Column(nullable = false)
-    private String nombre;
-
-    @Column(nullable = false)
-    private String tipoSocio;
-
-    @Column(unique = true)
-    private String nif;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "tipo_seguro")
-    private TipoSeguro tipoSeguro;
-
-    @Column(name = "id_federacion")
-    private Integer idFederacion;
-
-    @Column(name = "id_socio_padre")
-    private Integer idSocioPadre;
-
-    @Column(name = "cuota_mensual", precision = 10, scale = 2)
-    private BigDecimal cuotaMensual;
-
-    // Constructor vacío requerido por JPA
-    public Socio() {
-    }
-
+    private int numeroSocio;       // Número único del socio
+    private String nombre;         // Nombre del socio
+    private String tipoSocio;      // Tipo de socio (ESTANDAR, FEDERADO, INFANTIL)
+    private String nif;            // NIF del socio (opcional, depende del tipo de socio)
+    private TipoSeguro tipoSeguro; // Tipo de seguro para socios ESTANDAR (BASICO o COMPLETO)
+    private Integer idFederacion;  // ID de la federación asociada (opcional, depende del tipo de socio)
+    private Integer idSocioPadre;  // ID del socio padre (opcional, solo para tipo infantil)
+    private BigDecimal cuotaMensual;  // Nuevo atributo para cuota mensual
+    /**
+     * Constructor de Socio.
+     *
+     * @param numeroSocio    Número único del socio.
+     * @param nombre         Nombre del socio.
+     * @param tipoSocio      Tipo de socio (ESTANDAR, FEDERADO, INFANTIL).
+     * @param nif            NIF del socio, opcional.
+     * @param tipoSeguro     Tipo de seguro, opcional, para socio estándar.
+     * @param idFederacion   ID de la federación, opcional.
+     * @param idSocioPadre   ID del socio padre, opcional.
+     */
     public Socio(int numeroSocio, String nombre, String tipoSocio, String nif, TipoSeguro tipoSeguro, Integer idFederacion, Integer idSocioPadre, BigDecimal cuotaMensual) {
         this.numeroSocio = numeroSocio;
         this.nombre = nombre;
@@ -121,8 +104,18 @@ public abstract class Socio {
         this.cuotaMensual = cuotaMensual;
     }
 
+    /**
+     * Método abstracto que debe ser implementado por cada subclase de Socio para calcular la cuota mensual.
+     *
+     * @return Cuota mensual del socio.
+     */
     public abstract double calcularCuotaMensual();
 
+    /**
+     * Método toString: Proporciona una representación en texto de la clase.
+     *
+     * @return Representación en texto de los datos del socio.
+     */
     @Override
     public String toString() {
         return "Socio{" +
@@ -137,5 +130,3 @@ public abstract class Socio {
                 '}';
     }
 }
-
-

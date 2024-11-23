@@ -8,7 +8,6 @@ import java.util.Scanner;
 
 
 
-
 public class MenuPrincipal {
 
     private static final Scanner scanner = new Scanner(System.in);
@@ -371,6 +370,3 @@ public class MenuPrincipal {
         }
     }
 */
-
-
-

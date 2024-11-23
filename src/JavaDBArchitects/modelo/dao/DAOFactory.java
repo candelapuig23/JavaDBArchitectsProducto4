@@ -1,7 +1,5 @@
 package JavaDBArchitects.modelo.dao;
 
-import JavaDBArchitects.modelo.dao.JDBC.*;
-
 public class DAOFactory {
     public static SocioDAO getSocioDAO() {
         return new SocioDAO();
