@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Estandar extends Socio {
 
-    @Column(name = "nif")
+    @Column(name = "nif", insertable = false, updatable = false)
     private String NIF;
 
     @OneToOne(cascade = CascadeType.ALL)

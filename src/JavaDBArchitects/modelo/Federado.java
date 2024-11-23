@@ -7,11 +7,11 @@ import java.math.BigDecimal;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Federado extends Socio {
 
-    @Column(name = "nif")
+    @Column(insertable = false, updatable = false)
     private String NIF;
 
     @ManyToOne
-    @JoinColumn(name = "id_federacion", referencedColumnName = "id_federacion")
+    @JoinColumn(name = "id_federacion", referencedColumnName = "id_federacion", insertable = false, updatable = false)
     private Federacion federacion;
 
     public Federado() {}
