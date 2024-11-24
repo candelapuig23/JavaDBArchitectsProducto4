@@ -2,28 +2,29 @@ package JavaDBArchitects.modelo.dao.entidades;
 
 import JavaDBArchitects.modelo.TipoSeguro;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import jakarta.persistence.*;
 
 @Entity
-@Table (name="seguros")
+@Table(name = "seguros")
 public class SegurosEntidad {
-    private TipoSeguro tipo;
+
+    @Id
+    @Column(name = "tipo", nullable = false)
+    private String tipo;
+
+    @Column(name = "precio", nullable = false)
     private float precio;
 
-    public SegurosEntidad(TipoSeguro tipo, float precio) {
-        this.tipo = tipo;
-        this.precio = precio;
+    // Constructor por defecto
+    public SegurosEntidad() {
     }
 
-    public TipoSeguro getTipo() {
+    // Getters y Setters
+    public String getTipo() {
         return tipo;
     }
 
-    public void setTipo(TipoSeguro tipo) {
+    public void setTipo(String tipo) {
         this.tipo = tipo;
     }
 
@@ -37,8 +38,8 @@ public class SegurosEntidad {
 
     @Override
     public String toString() {
-        return "Seguro{" +
-                "tipo=" + tipo +
+        return "SegurosEntidad{" +
+                "tipo='" + tipo + '\'' +
                 ", precio=" + precio +
                 '}';
     }

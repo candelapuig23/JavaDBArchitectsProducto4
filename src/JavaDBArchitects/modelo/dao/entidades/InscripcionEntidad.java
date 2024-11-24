@@ -6,79 +6,72 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import jakarta.persistence.*;
 
 @Entity
-@Table (name="inscripciones")
+@Table(name = "inscripciones")
 public class InscripcionEntidad {
-    // Formateador para representar las fechas en formato "dd/MM/yyyy"
-    private static final DateTimeFormatter FORMATO_FECHA = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    // Atributos de la clase Inscripción
-    private String id_inscripcion;  // Número de inscripción único
-    private Socio socio;            // Socio asociado a la inscripción
-    private Excursion excursion;    // Excursión asociada a la inscripción
-    private Date fecha_inscripcion;  // Fecha en la que se realizó la inscripción
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_inscripcion", nullable = false)
+    private int idInscripcion;
 
-    // Constructor: Inicializa los atributos de la inscripción
-    public InscripcionEntidad(String numInscripcion, Socio socio, Excursion excursion, Date fecha_inscripcion) {
-        this.id_inscripcion = numInscripcion;
-        this.socio = socio;
-        this.excursion = excursion;
-        this.fecha_inscripcion = fecha_inscripcion;
+    @ManyToOne
+    @JoinColumn(name = "id_socio", nullable = false)
+    private SocioEntidad socio;
+
+    @ManyToOne
+    @JoinColumn(name = "id_excursion", nullable = false)
+    private ExcursionEntidad excursion;
+
+    @Column(name = "fecha_inscripcion", nullable = false)
+    private java.sql.Date fechaInscripcion;
+
+    // Constructor por defecto
+    public InscripcionEntidad() {
     }
 
-
-    // Getters y Setters: Permiten acceder y modificar los atributos
-
-    public String getNumInscripcion() {
-        return id_inscripcion;
+    // Getters y Setters
+    public int getIdInscripcion() {
+        return idInscripcion;
     }
 
-    public void setNumInscripcion(String numInscripcion) {
-        this.id_inscripcion = numInscripcion;
+    public void setIdInscripcion(int idInscripcion) {
+        this.idInscripcion = idInscripcion;
     }
 
-    public Socio getSocio() {
+    public SocioEntidad getSocio() {
         return socio;
     }
 
-    public void setSocio(Socio socio) {
+    public void setSocio(SocioEntidad socio) {
         this.socio = socio;
     }
 
-    public Excursion getExcursion() {
+    public ExcursionEntidad getExcursion() {
         return excursion;
     }
 
-    public void setExcursion(Excursion excursion) {
+    public void setExcursion(ExcursionEntidad excursion) {
         this.excursion = excursion;
     }
 
-    public Date getFecha_inscripcion() {
-        return fecha_inscripcion;
+    public java.sql.Date getFechaInscripcion() {
+        return fechaInscripcion;
     }
 
-    public void setFecha_inscripcion(Date fecha_inscripcion) {
-        this.fecha_inscripcion = fecha_inscripcion;
+    public void setFechaInscripcion(java.sql.Date fechaInscripcion) {
+        this.fechaInscripcion = fechaInscripcion;
     }
 
-    /**
-     * Proporciona una representación en texto de la inscripción, incluyendo el socio,
-     * la excursión y la fecha de inscripción.
-     *
-     * @return una cadena con los detalles de la inscripción.
-     */
     @Override
     public String toString() {
-        LocalDate fechaInscripcionLocal = fecha_inscripcion.toLocalDate();
-        return "Nº Inscripción: " + id_inscripcion + '\n' +
-                "Tipo de Socio: " + socio +
-                "-- Excursión -- \n" + excursion + '\n' +
-                "Fecha de la Inscripción: " + fechaInscripcionLocal.format(FORMATO_FECHA);
+        return "InscripcionEntidad{" +
+                "idInscripcion=" + idInscripcion +
+                ", socio=" + socio +
+                ", excursion=" + excursion +
+                ", fechaInscripcion=" + fechaInscripcion +
+                '}';
     }
 }

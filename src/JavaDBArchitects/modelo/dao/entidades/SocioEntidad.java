@@ -4,48 +4,35 @@ import JavaDBArchitects.modelo.TipoSeguro;
 
 import java.math.BigDecimal;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import jakarta.persistence.*;
+
 @Entity
-@Table(name="socios")
+@Table(name = "socios")
+public class SocioEntidad {
 
-public abstract class SocioEntidad {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "numeroSocio", nullable = false)
+    private int numeroSocio;
 
-    private int numeroSocio;       // Número único del socio
-    private String nombre;         // Nombre del socio
-    private String tipoSocio;      // Tipo de socio (ESTANDAR, FEDERADO, INFANTIL)
-    private String nif;            // NIF del socio (opcional, depende del tipo de socio)
-    private TipoSeguro tipoSeguro; // Tipo de seguro para socios ESTANDAR (BASICO o COMPLETO)
-    private Integer idFederacion;  // ID de la federación asociada (opcional, depende del tipo de socio)
-    private Integer idSocioPadre;  // ID del socio padre (opcional, solo para tipo infantil)
-    private BigDecimal cuotaMensual;  // Nuevo atributo para cuota mensual
-    /**
-     * Constructor de Socio.
-     *
-     * @param numeroSocio    Número único del socio.
-     * @param nombre         Nombre del socio.
-     * @param tipoSocio      Tipo de socio (ESTANDAR, FEDERADO, INFANTIL).
-     * @param nif            NIF del socio, opcional.
-     * @param tipoSeguro     Tipo de seguro, opcional, para socio estándar.
-     * @param idFederacion   ID de la federación, opcional.
-     * @param idSocioPadre   ID del socio padre, opcional.
-     */
-    public SocioEntidad(int numeroSocio, String nombre, String tipoSocio, String nif, TipoSeguro tipoSeguro, Integer idFederacion, Integer idSocioPadre, BigDecimal cuotaMensual) {
-        this.numeroSocio = numeroSocio;
-        this.nombre = nombre;
-        this.tipoSocio = tipoSocio;
-        this.nif = nif;
-        this.tipoSeguro = tipoSeguro;
-        this.idFederacion = idFederacion;
-        this.idSocioPadre = idSocioPadre;
-        this.cuotaMensual = cuotaMensual;
+    @Column(name = "nombre", nullable = false)
+    private String nombre;
+
+    @Column(name = "tipo_socio", nullable = false)
+    private String tipoSocio;
+
+    @Column(name = "nif")
+    private String nif;
+
+    @ManyToOne
+    @JoinColumn(name = "id_federacion")
+    private FederacionEntidad federacion;
+
+    // Constructor por defecto
+    public SocioEntidad() {
     }
 
     // Getters y Setters
-
     public int getNumeroSocio() {
         return numeroSocio;
     }
@@ -78,61 +65,22 @@ public abstract class SocioEntidad {
         this.nif = nif;
     }
 
-    public TipoSeguro getTipoSeguro() {
-        return tipoSeguro;
+    public FederacionEntidad getFederacion() {
+        return federacion;
     }
 
-    public void setTipoSeguro(TipoSeguro tipoSeguro) {
-        this.tipoSeguro = tipoSeguro;
+    public void setFederacion(FederacionEntidad federacion) {
+        this.federacion = federacion;
     }
 
-    public Integer getIdFederacion() {
-        return idFederacion;
-    }
-
-    public void setIdFederacion(Integer idFederacion) {
-        this.idFederacion = idFederacion;
-    }
-
-    public Integer getIdSocioPadre() {
-        return idSocioPadre;
-    }
-
-    public void setIdSocioPadre(Integer idSocioPadre) {
-        this.idSocioPadre = idSocioPadre;
-    }
-
-    public BigDecimal getCuotaMensual() {
-        return cuotaMensual;
-    }
-
-    public void setCuotaMensual(BigDecimal cuotaMensual) {
-        this.cuotaMensual = cuotaMensual;
-    }
-
-    /**
-     * Método abstracto que debe ser implementado por cada subclase de Socio para calcular la cuota mensual.
-     *
-     * @return Cuota mensual del socio.
-     */
-    public abstract double calcularCuotaMensual();
-
-    /**
-     * Método toString: Proporciona una representación en texto de la clase.
-     *
-     * @return Representación en texto de los datos del socio.
-     */
     @Override
     public String toString() {
-        return "Socio{" +
+        return "SocioEntidad{" +
                 "numeroSocio=" + numeroSocio +
                 ", nombre='" + nombre + '\'' +
                 ", tipoSocio='" + tipoSocio + '\'' +
                 ", nif='" + nif + '\'' +
-                ", tipoSeguro=" + tipoSeguro +
-                ", idFederacion=" + idFederacion +
-                ", idSocioPadre=" + idSocioPadre +
-                ", cuotaMensual=" + cuotaMensual +
+                ", federacion=" + federacion +
                 '}';
     }
 }
