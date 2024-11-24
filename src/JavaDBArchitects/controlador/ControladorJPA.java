@@ -57,6 +57,16 @@ public class ControladorJPA {
         }
     }
 
+    //Opción 5: Listar inscripciones
+
+    public static void listarInscripcionesJPA() {
+        try {
+            inscripcionDAOJPA.listarInscripcionesJPA();
+        } catch (Exception e) {
+            System.err.println("Error al listar inscripciones: " + e.getMessage());
+        }
+    }
+
     //Opcion 12: Eliminar excursion
 
     public static boolean eliminarExcursionJPA(String idExcursion) {

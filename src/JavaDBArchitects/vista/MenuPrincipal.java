@@ -43,7 +43,7 @@ public class MenuPrincipal {
                 case 2 -> registrarSocioJPAMenu();
                 case 3 -> inscribirEnExcursionJPAMenu();
                 case 4 -> listarExcursionesPorFechaJPAMenu();
-                case 5 -> listarInscripcionesPAMenu();
+                case 5 -> listarInscripcionesJPAMenu();
                 case 6 -> consultarFacturaMensual();
                 case 7 -> modificarDatosSocio();
                 case 8 -> mostrarSociosPorTipoPAMenu();
@@ -99,6 +99,17 @@ public class MenuPrincipal {
 
         // Llamada al método en el controlador
         Controlador.registrarSocioPA(nombre, tipoSocio, NIF, idFederacion, idSocioPadre, extra, nombreFederacion);
+    }
+
+    private static void listarInscripcionesJPAMenu() {
+        System.out.println("=== Listar Inscripciones ===");
+
+        // Llamar al método del ControladorJPA para listar las inscripciones
+        try {
+            ControladorJPA.listarInscripcionesJPA();
+        } catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+        }
     }
 
     private static void registrarSocioJPAMenu() {
