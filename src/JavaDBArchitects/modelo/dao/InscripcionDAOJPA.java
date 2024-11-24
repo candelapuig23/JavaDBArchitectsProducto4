@@ -88,5 +88,42 @@ public class InscripcionDAOJPA {
         }
     }
 
+    //============Metodo para eliminar inscripcion===========
 
+    public boolean eliminarInscripcionJPA(int idInscripcion) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        boolean eliminado = false;
+
+        try {
+            // Iniciar la transacción
+            entityManager.getTransaction().begin();
+
+            // Buscar la inscripción por su ID
+            InscripcionEntidad inscripcion = entityManager.find(InscripcionEntidad.class, idInscripcion);
+
+            if (inscripcion == null) {
+                System.out.println("Error: La inscripción con ID " + idInscripcion + " no existe.");
+                entityManager.getTransaction().rollback();
+            } else {
+                // Eliminar la inscripción
+                entityManager.remove(inscripcion);
+
+                // Confirmar la transacción
+                entityManager.getTransaction().commit();
+                eliminado = true;
+                System.out.println("Inscripción eliminada con éxito.");
+            }
+        } catch (Exception e) {
+            // En caso de error, revertir la transacción
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+            }
+            System.err.println("Error al eliminar la inscripción: " + e.getMessage());
+        } finally {
+            // Cerrar el EntityManager
+            entityManager.close();
+        }
+
+        return eliminado;
+    }
 }

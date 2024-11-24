@@ -47,7 +47,7 @@ public class MenuPrincipal {
                 case 6 -> consultarFacturaMensual();
                 case 7 -> modificarDatosJPASocio();
                 case 8 -> mostrarSociosPorTipoJPAMenu();
-                case 9 -> eliminarInscripcionPAMenu();
+                case 9 -> eliminarInscripcionJPAMenu();
                 case 10 -> eliminarSocioPAMenu();
                 case 11 -> mostrarInscripcionesConFiltros();
                 case 12 -> eliminarExcursionJPAMenu();
@@ -56,7 +56,21 @@ public class MenuPrincipal {
             }
         }
     }
-//
+
+    private static void eliminarInscripcionJPAMenu() {
+        System.out.println("=== Eliminar Inscripción ===");
+        System.out.print("Número de Inscripción: ");
+        int numeroInscripcion = Integer.parseInt(scanner.nextLine());
+
+        // Llamada al método del ControladorJPA para eliminar la inscripción
+        boolean exito = ControladorJPA.eliminarInscripcion(numeroInscripcion);
+        if (exito) {
+            System.out.println("Inscripción eliminada con éxito.");
+        } else {
+            System.out.println("No se pudo eliminar la inscripción. Puede que no exista.");
+        }
+    }
+
     private static void mostrarSociosPorTipoJPAMenu() {
         System.out.println("=== Mostrar Socios por Tipo ===");
         System.out.print("Tipo de Socio (0: Estandar, 1: Federado, 2: Infantil): ");

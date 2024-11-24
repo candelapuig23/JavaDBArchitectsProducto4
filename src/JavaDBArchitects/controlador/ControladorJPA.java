@@ -89,6 +89,19 @@ public class ControladorJPA {
         }
     }
 
+    //Opción 9: Eliminar inscripción
+
+    public static boolean eliminarInscripcion(int idInscripcion) {
+        boolean eliminado = false;
+        try {
+            eliminado = inscripcionDAOJPA.eliminarInscripcionJPA(idInscripcion);
+        } catch (Exception e) {
+            System.err.println("Error al eliminar la inscripción: " + e.getMessage());
+        }
+        return eliminado;
+    }
+
+
     //Opcion 12: Eliminar excursion
 
     public static boolean eliminarExcursionJPA(String idExcursion) {
