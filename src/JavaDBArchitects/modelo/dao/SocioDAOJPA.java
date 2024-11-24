@@ -169,4 +169,43 @@ public class SocioDAOJPA {
         return socios;
     }
 
+    //===========Metodo para eliminar socio============
+
+    public boolean eliminarSocioJPA(int idSocio) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        boolean eliminado = false;
+
+        try {
+            // Iniciar la transacción
+            entityManager.getTransaction().begin();
+
+            // Buscar al socio por su ID
+            SocioEntidad socio = entityManager.find(SocioEntidad.class, idSocio);
+
+            if (socio == null) {
+                System.out.println("Error: El socio con número " + idSocio + " no existe.");
+                entityManager.getTransaction().rollback();
+            } else {
+                // Eliminar el socio
+                entityManager.remove(socio);
+
+                // Confirmar la transacción
+                entityManager.getTransaction().commit();
+                eliminado = true;
+                System.out.println("Socio eliminado correctamente.");
+            }
+        } catch (Exception e) {
+            // En caso de error, revertir la transacción
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+            }
+            System.err.println("Error al eliminar el socio: " + e.getMessage());
+        } finally {
+            // Cerrar el EntityManager
+            entityManager.close();
+        }
+
+        return eliminado;
+    }
+
 }

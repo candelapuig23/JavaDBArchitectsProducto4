@@ -48,7 +48,7 @@ public class MenuPrincipal {
                 case 7 -> modificarDatosJPASocio();
                 case 8 -> mostrarSociosPorTipoJPAMenu();
                 case 9 -> eliminarInscripcionJPAMenu();
-                case 10 -> eliminarSocioPAMenu();
+                case 10 -> eliminarSocioJPAMenu();
                 case 11 -> mostrarInscripcionesConFiltros();
                 case 12 -> eliminarExcursionJPAMenu();
                 case 0 -> System.out.println("Saliendo del sistema...");
@@ -200,7 +200,19 @@ public class MenuPrincipal {
         // Llamada al método en Controlador
         Controlador.eliminarSocioPA(numeroSocio);
     }
+    private static void eliminarSocioJPAMenu() {
+        System.out.println("=== Eliminar Socio ===");
+        System.out.print("Número de Socio: ");
+        int numeroSocio = Integer.parseInt(scanner.nextLine());
 
+        // Llamar al método del ControladorJPA para eliminar al socio
+        boolean exito = ControladorJPA.eliminarSocio(numeroSocio);
+        if (exito) {
+            System.out.println("Socio eliminado con éxito.");
+        } else {
+            System.out.println("No se pudo eliminar el socio. Puede que no exista o haya ocurrido un error.");
+        }
+    }
 
     private static void inscribirEnExcursionPAMenu() {
         System.out.println("=== Inscribir en Excursión ===");

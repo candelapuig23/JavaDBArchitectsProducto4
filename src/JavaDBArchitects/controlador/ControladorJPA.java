@@ -101,6 +101,17 @@ public class ControladorJPA {
         return eliminado;
     }
 
+    //Opción 10: Eliminar Socio
+
+    public static boolean eliminarSocio(int idSocio) {
+        boolean eliminado = false;
+        try {
+            eliminado = socioDAOJPA.eliminarSocioJPA(idSocio);
+        } catch (Exception e) {
+            System.err.println("Error al eliminar el socio: " + e.getMessage());
+        }
+        return eliminado;
+    }
 
     //Opcion 12: Eliminar excursion
 
