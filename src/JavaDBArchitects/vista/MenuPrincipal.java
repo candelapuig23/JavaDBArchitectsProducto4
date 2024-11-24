@@ -56,7 +56,7 @@ public class MenuPrincipal {
             }
         }
     }
-
+//
     private static void mostrarSociosPorTipoJPAMenu() {
         System.out.println("=== Mostrar Socios por Tipo ===");
         System.out.print("Tipo de Socio (0: Estandar, 1: Federado, 2: Infantil): ");
