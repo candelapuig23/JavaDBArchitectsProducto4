@@ -45,8 +45,8 @@ public class MenuPrincipal {
                 case 4 -> listarExcursionesPorFechaJPAMenu();
                 case 5 -> listarInscripcionesJPAMenu();
                 case 6 -> consultarFacturaMensual();
-                case 7 -> modificarDatosSocio();
-                case 8 -> mostrarSociosPorTipoPAMenu();
+                case 7 -> modificarDatosJPASocio();
+                case 8 -> mostrarSociosPorTipoJPAMenu();
                 case 9 -> eliminarInscripcionPAMenu();
                 case 10 -> eliminarSocioPAMenu();
                 case 11 -> mostrarInscripcionesConFiltros();
@@ -55,6 +55,16 @@ public class MenuPrincipal {
                 default -> System.out.println("Opción no válida. Inténtalo de nuevo.");
             }
         }
+    }
+
+    private static void mostrarSociosPorTipoJPAMenu() {
+        System.out.println("=== Mostrar Socios por Tipo ===");
+        System.out.print("Tipo de Socio (0: Estandar, 1: Federado, 2: Infantil): ");
+        int tipoSocio = scanner.nextInt();
+        scanner.nextLine();  // Capturar la línea vacía
+
+        // Llamar al método del ControladorJPA para listar los socios por tipo
+        ControladorJPA.listarSociosPorTipoJPA(tipoSocio);
     }
 
     private static void registrarSocioPAMenu() {
@@ -215,7 +225,17 @@ public class MenuPrincipal {
 
         Controlador.modificarDatosSocio(numeroSocio, nuevoNombre);
     }
+    private static void modificarDatosJPASocio() {
+        System.out.println("=== Modificar Datos del Socio ===");
+        System.out.print("Número de Socio: ");
+        int numeroSocio = scanner.nextInt();
+        scanner.nextLine();
+        System.out.print("Nuevo nombre del socio: ");
+        String nuevoNombre = scanner.nextLine();
 
+        // Llamar al método del ControladorJPA para modificar los datos del socio
+        ControladorJPA.modificarDatosSocio(numeroSocio, nuevoNombre);
+    }
 
     private static void eliminarInscripcionPAMenu() {
         System.out.println("=== Eliminar Inscripción ===");

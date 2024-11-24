@@ -67,6 +67,28 @@ public class ControladorJPA {
         }
     }
 
+    //Opción 7: Modificar datos socio
+
+    public static void modificarDatosSocio(int numeroSocio, String nuevoNombre) {
+        try {
+            socioDAOJPA.modificarDatosSocioJPA(numeroSocio, nuevoNombre);
+        } catch (Exception e) {
+            System.err.println("Error al modificar los datos del socio: " + e.getMessage());
+        }
+    }
+
+    //Opción 8: Mostrar socios por tipo
+
+    private static final SocioDAOJPA socioDAOJPA = new SocioDAOJPA();
+
+    public static void listarSociosPorTipoJPA(int tipoSocio) {
+        try {
+            socioDAOJPA.listarSociosPorTipoJPA(tipoSocio);
+        } catch (Exception e) {
+            System.err.println("Error al listar socios por tipo: " + e.getMessage());
+        }
+    }
+
     //Opcion 12: Eliminar excursion
 
     public static boolean eliminarExcursionJPA(String idExcursion) {
