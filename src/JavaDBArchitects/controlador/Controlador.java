@@ -48,9 +48,13 @@ public class Controlador {
     }
 
     // Método en Controlador para eliminar una excursión usando procedimiento almacenado y transacciones
+
     public static boolean eliminarExcursionPA(String idExcursion) {
         return ExcursionDAO.eliminarExcursionPA(idExcursion);
     }
+
+
+
 
 
     // Método para inscribir en una excursión mediante procedimiento almacenado y una transacción

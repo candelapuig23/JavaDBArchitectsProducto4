@@ -1,6 +1,7 @@
 package JavaDBArchitects.vista;
 
 import JavaDBArchitects.controlador.Controlador;
+import JavaDBArchitects.controlador.ControladorJPA;
 import JavaDBArchitects.modelo.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -230,7 +231,7 @@ public class MenuPrincipal {
         String idExcursion = scanner.nextLine();
 
         // Llamar al método en Controlador
-        boolean exito = Controlador.eliminarExcursionPA(idExcursion);
+        boolean exito = ControladorJPA.eliminarExcursionJPA(idExcursion);
         if (exito) {
             System.out.println("Excursión eliminada con éxito.");
         } else {

@@ -5,11 +5,14 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
         <!-- Clases de Entidad -->
-        <class>JavaDBArchitects.modelo.Socio</class>
-        <class>JavaDBArchitects.modelo.Excursion</class>
-        <class>JavaDBArchitects.modelo.Inscripcion</class>
-        <class>JavaDBArchitects.modelo.Federacion</class>
-        <class>JavaDBArchitects.modelo.Seguro</class>
+        <class>JavaDBArchitects.modelo.dao.entidades.SocioEntidad</class>
+        <class>JavaDBArchitects.modelo.dao.entidades.ExcursionEntidad</class>
+        <class>JavaDBArchitects.modelo.dao.entidades.FederacionEntidad</class>
+        <class>JavaDBArchitects.modelo.dao.entidades.SegurosEntidad</class>
+        <class>JavaDBArchitects.modelo.dao.entidades.InscripcionEntidad</class>
+        <class>JavaDBArchitects.modelo.dao.entidades.EstandarEntidad</class>
+        <class>JavaDBArchitects.modelo.dao.entidades.FederadoEntidad</class>
+        <class>JavaDBArchitects.modelo.dao.entidades.InfantilEntidad</class>
 
         <!-- Configuración de Propiedades -->
         <properties>
