@@ -1,24 +1,52 @@
 package JavaDBArchitects.modelo.dao;
 
+import JavaDBArchitects.modelo.dao.entidades.ExcursionEntidad;
 import JavaDBArchitects.modelo.dao.entidades.InscripcionEntidad;
+import JavaDBArchitects.modelo.dao.entidades.SocioEntidad;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+
+import java.time.LocalDate;
 import java.util.List;
 
 public class InscripcionDAOJPA {
     private static final EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("JavaDBArchitectsPU");
 
-    // Método para registrar una nueva inscripción
-    public void registrarInscripcion(InscripcionEntidad inscripcion) {
+    public void inscribirEnExcursionJPA(int idSocio, String idExcursion, LocalDate fechaInscripcion) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
+
         try {
             entityManager.getTransaction().begin();
+
+            // Buscar el socio utilizando su ID
+            SocioEntidad socio = entityManager.find(SocioEntidad.class, idSocio);
+            if (socio == null) {
+                throw new IllegalArgumentException("No se encontró el socio con el ID: " + idSocio);
+            }
+
+            // Buscar la excursión utilizando su ID
+            ExcursionEntidad excursion = entityManager.find(ExcursionEntidad.class, idExcursion);
+            if (excursion == null) {
+                throw new IllegalArgumentException("No se encontró la excursión con el ID: " + idExcursion);
+            }
+
+            // Crear la nueva inscripción
+            InscripcionEntidad inscripcion = new InscripcionEntidad();
+            inscripcion.setSocio(socio);
+            inscripcion.setExcursion(excursion);
+            inscripcion.setFechaInscripcion(java.sql.Date.valueOf(fechaInscripcion));
+
+            // Persistir la inscripción
             entityManager.persist(inscripcion);
             entityManager.getTransaction().commit();
+
+            System.out.println("Inscripción registrada correctamente.");
+
         } catch (Exception e) {
             if (entityManager.getTransaction().isActive()) {
                 entityManager.getTransaction().rollback();
+                System.err.println("La transacción se ha revertido debido a un error: " + e.getMessage());
             }
             e.printStackTrace();
         } finally {
@@ -26,55 +54,4 @@ public class InscripcionDAOJPA {
         }
     }
 
-    // Método para obtener todas las inscripciones
-    public List<InscripcionEntidad> obtenerTodasLasInscripciones() {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        List<InscripcionEntidad> inscripciones = null;
-        try {
-            inscripciones = entityManager.createQuery("SELECT i FROM InscripcionEntidad i", InscripcionEntidad.class).getResultList();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            entityManager.close();
-        }
-        return inscripciones;
-    }
-
-    // Método para buscar inscripciones por ID de excursión
-    public List<InscripcionEntidad> obtenerInscripcionesPorExcursion(String idExcursion) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        List<InscripcionEntidad> inscripciones = null;
-        try {
-            inscripciones = entityManager.createQuery("SELECT i FROM InscripcionEntidad i WHERE i.idExcursion = :idExcursion", InscripcionEntidad.class)
-                    .setParameter("idExcursion", idExcursion)
-                    .getResultList();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            entityManager.close();
-        }
-        return inscripciones;
-    }
-
-    // Método para eliminar una inscripción por su ID
-    public void eliminarInscripcion(int idInscripcion) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        try {
-            entityManager.getTransaction().begin();
-            InscripcionEntidad inscripcion = entityManager.find(InscripcionEntidad.class, idInscripcion);
-            if (inscripcion != null) {
-                entityManager.remove(inscripcion);
-                entityManager.getTransaction().commit();
-            } else {
-                System.out.println("La inscripción con ID " + idInscripcion + " no existe.");
-            }
-        } catch (Exception e) {
-            if (entityManager.getTransaction().isActive()) {
-                entityManager.getTransaction().rollback();
-            }
-            e.printStackTrace();
-        } finally {
-            entityManager.close();
-        }
-    }
 }

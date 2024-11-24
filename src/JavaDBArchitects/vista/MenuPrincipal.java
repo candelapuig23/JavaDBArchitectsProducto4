@@ -36,12 +36,12 @@ public class MenuPrincipal {
             System.out.print("Selecciona una opción: ");
 
             opcion = scanner.nextInt();
-            scanner.nextLine(); // Capturar el salto de línea
+            scanner.nextLine();
 
             switch (opcion) {
                 case 1 -> registrarExcursionJPAMenu();
                 case 2 -> registrarSocioJPAMenu();
-                case 3 -> inscribirEnExcursionPAMenu();
+                case 3 -> inscribirEnExcursionJPAMenu();
                 case 4 -> listarExcursionesPorFechaJPAMenu();
                 case 5 -> listarInscripcionesPAMenu();
                 case 6 -> consultarFacturaMensual();
@@ -130,6 +130,28 @@ public class MenuPrincipal {
         // Llamada al metodo en el controlador
         ControladorJPA.registrarSocioJPA(nombre, tipoSocio, nif, idFederacion, idSocioPadre, null, nombreFederacion);
     }
+
+    private static void inscribirEnExcursionJPAMenu() {
+        System.out.println("=== Inscribir en Excursión ===");
+        System.out.print("Número de Socio: ");
+        int numeroSocio = scanner.nextInt();
+        scanner.nextLine();
+        System.out.print("Código de la Excursión: ");
+        String codigoExcursion = scanner.nextLine();
+        System.out.print("Fecha de Inscripción (DD/MM/YYYY): ");
+        String fechaStr = scanner.nextLine();
+
+        LocalDate fechaInscripcion = LocalDate.parse(fechaStr, formatter);
+
+        // Llamar al método del ControladorJPA
+        try {
+            ControladorJPA.inscribirEnExcursionJPA(numeroSocio, codigoExcursion, fechaInscripcion);
+        } catch (IllegalArgumentException e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+    }
+
+
 
 
 

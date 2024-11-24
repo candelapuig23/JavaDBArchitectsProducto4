@@ -1,12 +1,12 @@
 package JavaDBArchitects.controlador;
 
 import JavaDBArchitects.modelo.dao.ExcursionDAOJPA;
+import JavaDBArchitects.modelo.dao.InscripcionDAOJPA;
 import JavaDBArchitects.modelo.dao.SocioDAOJPA;
 
 import java.time.LocalDate;
 
 public class ControladorJPA {
-
 
     // Opción 1: Añadir excursion
 
@@ -23,7 +23,6 @@ public class ControladorJPA {
 
     //Opción 2: Registrar Socio
 
-
     public static void registrarSocioJPA(String nombre, int tipoSocio, String nif, int idFederacion, Integer idSocioPadre, Object extra, String nombreFederacion) {
         SocioDAOJPA socioDAO = new SocioDAOJPA();
         try {
@@ -31,6 +30,18 @@ public class ControladorJPA {
         } catch (Exception e) {
             System.err.println("Error al registrar socio: " + e.getMessage());
             e.printStackTrace();
+        }
+    }
+
+    //Opción 3: Inscribir en excursión
+
+    private static final InscripcionDAOJPA inscripcionDAOJPA = new InscripcionDAOJPA();
+
+    public static void inscribirEnExcursionJPA(int idSocio, String idExcursion, LocalDate fechaInscripcion) {
+        try {
+            inscripcionDAOJPA.inscribirEnExcursionJPA(idSocio, idExcursion, fechaInscripcion);
+        } catch (IllegalArgumentException e) {
+            System.err.println("Error al inscribir en la excursión: " + e.getMessage());
         }
     }
 
@@ -57,9 +68,6 @@ public class ControladorJPA {
             return false;
         }
     }
-
-
-
 }
 
 
