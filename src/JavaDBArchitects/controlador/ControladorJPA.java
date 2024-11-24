@@ -1,8 +1,8 @@
 package JavaDBArchitects.controlador;
 
-import JavaDBArchitects.modelo.dao.ExcursionDAOJPA;
-import JavaDBArchitects.modelo.dao.InscripcionDAOJPA;
-import JavaDBArchitects.modelo.dao.SocioDAOJPA;
+import JavaDBArchitects.dao.jpa.ExcursionDAOJPA;
+import JavaDBArchitects.dao.jpa.InscripcionDAOJPA;
+import JavaDBArchitects.dao.jpa.SocioDAOJPA;
 
 import java.time.LocalDate;
 
