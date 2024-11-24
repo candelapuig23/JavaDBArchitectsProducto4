@@ -42,7 +42,7 @@ public class MenuPrincipal {
                 case 1 -> registrarExcursionJPAMenu();
                 case 2 -> registrarSocioPAMenu();
                 case 3 -> inscribirEnExcursionPAMenu();
-                case 4 -> listarExcursionesPorFechaPAMenu();
+                case 4 -> listarExcursionesPorFechaJPAMenu();
                 case 5 -> listarInscripcionesPAMenu();
                 case 6 -> consultarFacturaMensual();
                 case 7 -> modificarDatosSocio();
@@ -239,6 +239,20 @@ public class MenuPrincipal {
         }
     }
 
+    private static void listarExcursionesPorFechaJPAMenu() {
+        System.out.println("=== Listar Excursiones por Fechas ===");
+        System.out.print("Fecha Inicio (DD/MM/YYYY): ");
+        String fechaInicioStr = scanner.nextLine();
+        System.out.print("Fecha Fin (DD/MM/YYYY): ");
+        String fechaFinStr = scanner.nextLine();
+
+        // Convertir las fechas ingresadas por el usuario a LocalDate
+        LocalDate fechaInicio = LocalDate.parse(fechaInicioStr, formatter);
+        LocalDate fechaFin = LocalDate.parse(fechaFinStr, formatter);
+
+        // Llamar al método en el controlador para listar excursiones por fecha usando JPA
+        ControladorJPA.listarExcursionesPorFechaJPA(fechaInicio, fechaFin);
+    }
 
 
 

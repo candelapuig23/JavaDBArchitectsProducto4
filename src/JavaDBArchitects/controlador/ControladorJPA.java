@@ -20,6 +20,18 @@ public class ControladorJPA {
         }
     }
 
+    //Opción 4: Listar excursiones por fecha
+
+    public static void listarExcursionesPorFechaJPA(LocalDate fechaInicio, LocalDate fechaFin) {
+        ExcursionDAOJPA excursionDAO = new ExcursionDAOJPA();
+        try {
+            excursionDAO.listarExcursionesPorFechaJPA(fechaInicio, fechaFin);
+        } catch (Exception e) {
+            System.err.println("Error al listar excursiones: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
     //Opcion 12: Eliminar excursion
 
     public static boolean eliminarExcursionJPA(String idExcursion) {
