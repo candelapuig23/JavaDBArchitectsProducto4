@@ -90,37 +90,6 @@ public class ExcursionDAOJPA {
         }
     }
 
-
-
-    // Método para obtener todas las excursiones
-
-    public List<ExcursionEntidad> obtenerTodasLasExcursionesJPA() {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        List<ExcursionEntidad> excursiones = null;
-        try {
-            excursiones = entityManager.createQuery("SELECT e FROM ExcursionEntidad e", ExcursionEntidad.class).getResultList();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            entityManager.close();
-        }
-        return excursiones;
-    }
-
-    // Método para buscar una excursión por su ID
-    public ExcursionEntidad buscarExcursionPorIdJPA(String idExcursion) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        ExcursionEntidad excursion = null;
-        try {
-            excursion = entityManager.find(ExcursionEntidad.class, idExcursion);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            entityManager.close();
-        }
-        return excursion;
-    }
-
     //==============Metodo para eliminar una excursion =============
 
     public void eliminarExcursionJPA(String idExcursion) {

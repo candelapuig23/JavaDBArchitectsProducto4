@@ -40,7 +40,7 @@ public class MenuPrincipal {
 
             switch (opcion) {
                 case 1 -> registrarExcursionJPAMenu();
-                case 2 -> registrarSocioPAMenu();
+                case 2 -> registrarSocioJPAMenu();
                 case 3 -> inscribirEnExcursionPAMenu();
                 case 4 -> listarExcursionesPorFechaJPAMenu();
                 case 5 -> listarInscripcionesPAMenu();
@@ -99,6 +99,36 @@ public class MenuPrincipal {
 
         // Llamada al método en el controlador
         Controlador.registrarSocioPA(nombre, tipoSocio, NIF, idFederacion, idSocioPadre, extra, nombreFederacion);
+    }
+
+    private static void registrarSocioJPAMenu() {
+        System.out.println("=== Registrar Socio ===");
+        System.out.print("Nombre del Socio: ");
+        String nombre = scanner.nextLine();
+        System.out.print("Tipo de Socio (0: Estandar, 1: Federado, 2: Infantil): ");
+        int tipoSocio = scanner.nextInt();
+        scanner.nextLine();  // Capturar la línea vacía
+        System.out.print("NIF: ");
+        String nif = scanner.nextLine();
+
+        int idFederacion = 0;  // Inicializamos en 0
+        Integer idSocioPadre = null;  // Inicializamos en null
+        String nombreFederacion = null;
+
+        if (tipoSocio == 1) {  // Federado
+            System.out.print("ID de la Federación: ");
+            idFederacion = scanner.nextInt();
+            scanner.nextLine();  // Capturar la línea vacía
+            System.out.print("Nombre de la Federación: ");
+            nombreFederacion = scanner.nextLine();
+        } else if (tipoSocio == 2) {  // Infantil
+            System.out.print("Número de Socio del Padre o Madre: ");
+            idSocioPadre = scanner.nextInt();
+            scanner.nextLine();  // Capturar la línea vacía
+        }
+
+        // Llamada al metodo en el controlador
+        ControladorJPA.registrarSocioJPA(nombre, tipoSocio, nif, idFederacion, idSocioPadre, null, nombreFederacion);
     }
 
 

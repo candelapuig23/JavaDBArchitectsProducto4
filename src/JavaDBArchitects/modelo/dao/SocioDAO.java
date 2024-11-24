@@ -13,6 +13,7 @@ public class SocioDAO {
 
 
     // Método registrarSocio mediante procedimiento almacenado
+
     public static void registrarSocioPA(String nombre, int tipoSocio, String nif, int idFederacion, Integer idSocioPadre, Object extra, String nombreFederacion) {
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/producto3", "root", "Gecabo13")) {
             conn.setAutoCommit(false);

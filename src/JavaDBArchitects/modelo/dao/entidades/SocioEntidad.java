@@ -28,6 +28,10 @@ public class SocioEntidad {
     @JoinColumn(name = "id_federacion")
     private FederacionEntidad federacion;
 
+    @ManyToOne
+    @JoinColumn(name = "id_socio_padre")
+    private SocioEntidad socioPadre;
+
     // Constructor por defecto
     public SocioEntidad() {
     }
@@ -73,6 +77,14 @@ public class SocioEntidad {
         this.federacion = federacion;
     }
 
+    public SocioEntidad getSocioPadre() {
+        return socioPadre;
+    }
+
+    public void setSocioPadre(SocioEntidad socioPadre) {
+        this.socioPadre = socioPadre;
+    }
+
     @Override
     public String toString() {
         return "SocioEntidad{" +
@@ -81,6 +93,7 @@ public class SocioEntidad {
                 ", tipoSocio='" + tipoSocio + '\'' +
                 ", nif='" + nif + '\'' +
                 ", federacion=" + federacion +
+                ", socioPadre=" + (socioPadre != null ? socioPadre.getNumeroSocio() : "N/A") +
                 '}';
     }
 }

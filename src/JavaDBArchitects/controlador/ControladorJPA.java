@@ -1,6 +1,7 @@
 package JavaDBArchitects.controlador;
 
 import JavaDBArchitects.modelo.dao.ExcursionDAOJPA;
+import JavaDBArchitects.modelo.dao.SocioDAOJPA;
 
 import java.time.LocalDate;
 
@@ -16,6 +17,19 @@ public class ControladorJPA {
             System.out.println("Excursión registrada con éxito.");
         } catch (Exception e) {
             System.err.println("Error al registrar la excursión: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    //Opción 2: Registrar Socio
+
+
+    public static void registrarSocioJPA(String nombre, int tipoSocio, String nif, int idFederacion, Integer idSocioPadre, Object extra, String nombreFederacion) {
+        SocioDAOJPA socioDAO = new SocioDAOJPA();
+        try {
+            socioDAO.registrarSocioJPA(nombre, tipoSocio, nif, idFederacion, idSocioPadre, extra, nombreFederacion);
+        } catch (Exception e) {
+            System.err.println("Error al registrar socio: " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -43,8 +57,6 @@ public class ControladorJPA {
             return false;
         }
     }
-
-
 
 
 

@@ -114,7 +114,6 @@ public class ExcursionDAO {
         return eliminado;
     }
 
-
     //Metodo para listar excursiones por fecha mediante procedimiento almacenado
 
     public static void listarExcursionesPorFechaPA(String fechaInicio, String fechaFin) {
