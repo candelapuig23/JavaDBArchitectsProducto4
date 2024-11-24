@@ -1,23 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <persistence xmlns="https://jakarta.ee/xml/ns/persistence" version="3.0">
-    <persistence-unit name="JavaDBArchitectsPU">
+    <persistence-unit name="JavaDBArchitectsPU" transaction-type="RESOURCE_LOCAL">
+        <!-- Proveedor JPA: Hibernate -->
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+        <!-- Clases de Entidad -->
         <class>JavaDBArchitects.modelo.Socio</class>
         <class>JavaDBArchitects.modelo.Excursion</class>
         <class>JavaDBArchitects.modelo.Inscripcion</class>
         <class>JavaDBArchitects.modelo.Federacion</class>
         <class>JavaDBArchitects.modelo.Seguro</class>
-        <!-- Más clases -->
+
+        <!-- Configuración de Propiedades -->
         <properties>
+            <!-- Configuración de la Base de Datos -->
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
             <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/producto3"/>
             <property name="jakarta.persistence.jdbc.user" value="root"/>
             <property name="jakarta.persistence.jdbc.password" value="Gecabo13"/>
+
+            <!-- Configuración de Hibernate -->
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
             <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
             <property name="hibernate.use_sql_comments" value="true"/>
-
         </properties>
     </persistence-unit>
 </persistence>

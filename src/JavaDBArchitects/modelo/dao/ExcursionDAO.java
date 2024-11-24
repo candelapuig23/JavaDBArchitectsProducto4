@@ -20,7 +20,7 @@ public class ExcursionDAO {
         CallableStatement stmt = null;
 
         try {
-            conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/producto3", "root", "Againdifficult23!");
+            conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/producto3", "root", "Gecabo13");
             conn.setAutoCommit(false);  // Inicia la transacción
 
             String sql = "{CALL registrarExcursion(?, ?, ?, ?, ?)}";
@@ -72,7 +72,7 @@ public class ExcursionDAO {
         boolean eliminado = false;
 
         try {
-            conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/producto3", "root", "Againdifficult23!");
+            conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/producto3", "root", "Gecabo13");
             conn.setAutoCommit(false);  // Iniciar transacción
 
             String sql = "{CALL eliminarExcursion(?)}";
@@ -123,7 +123,7 @@ public class ExcursionDAO {
         ResultSet rs = null;
 
         try {
-            conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/producto3", "root", "Againdifficult23!");
+            conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/producto3", "root", "Gecabo13");
 
             String sql = "{CALL listarExcursionesPorFechas(?, ?)}";
             stmt = conn.prepareCall(sql);

@@ -14,7 +14,7 @@ public class SocioDAO {
 
     // Método registrarSocio mediante procedimiento almacenado
     public static void registrarSocioPA(String nombre, int tipoSocio, String nif, int idFederacion, Integer idSocioPadre, Object extra, String nombreFederacion) {
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/producto3", "root", "Againdifficult23!")) {
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/producto3", "root", "Gecabo13")) {
             conn.setAutoCommit(false);
 
             String sql = "{CALL registrarSocio(?, ?, ?, ?, ?, ?, ?)}";
@@ -81,7 +81,7 @@ public class SocioDAO {
     public static void eliminarSocioPA(int idSocio) {
         String url = "jdbc:mysql://127.0.0.1:3306/producto3";
         String usuario = "root";
-        String contraseña = "Againdifficult23!";
+        String contraseña = "Gecabo13";
 
         try (Connection conn = DriverManager.getConnection(url, usuario, contraseña)) {
             conn.setAutoCommit(false);  // Iniciar transacción

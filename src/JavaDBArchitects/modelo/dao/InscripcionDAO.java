@@ -20,7 +20,7 @@ public class InscripcionDAO {
     public static void inscribirEnExcursionPA(int idSocio, String idExcursion, LocalDate fechaInscripcion) {
         String url = "jdbc:mysql://127.0.0.1:3306/producto3";
         String usuario = "root";
-        String contraseña = "Againdifficult23!";
+        String contraseña = "Gecabo13";
 
         // Convertimos LocalDate a SQL Date para la base de datos
         java.sql.Date fechaSQL = java.sql.Date.valueOf(fechaInscripcion);
@@ -68,7 +68,7 @@ public class InscripcionDAO {
         boolean eliminado = false;
 
         try {
-            conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/producto3", "root", "Againdifficult23!");
+            conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/producto3", "root", "Gecabo13");
             conn.setAutoCommit(false);
 
             String sql = "{CALL eliminarInscripcion(?)}";
@@ -113,7 +113,7 @@ public class InscripcionDAO {
         ResultSet rs = null;
 
         try {
-            conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/producto3", "root", "Againdifficult23!");
+            conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/producto3", "root", "Gecabo13");
 
             String sql = "{CALL listarInscripciones()}";
             stmt = conn.prepareCall(sql);
