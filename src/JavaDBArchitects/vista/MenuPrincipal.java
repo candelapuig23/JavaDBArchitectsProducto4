@@ -39,7 +39,7 @@ public class MenuPrincipal {
             scanner.nextLine(); // Capturar el salto de línea
 
             switch (opcion) {
-                case 1 -> registrarExcursionPAMenu();
+                case 1 -> registrarExcursionJPAMenu();
                 case 2 -> registrarSocioPAMenu();
                 case 3 -> inscribirEnExcursionPAMenu();
                 case 4 -> listarExcursionesPorFechaPAMenu();
@@ -50,7 +50,7 @@ public class MenuPrincipal {
                 case 9 -> eliminarInscripcionPAMenu();
                 case 10 -> eliminarSocioPAMenu();
                 case 11 -> mostrarInscripcionesConFiltros();
-                case 12 -> eliminarExcursionPAMenu();
+                case 12 -> eliminarExcursionJPAMenu();
                 case 0 -> System.out.println("Saliendo del sistema...");
                 default -> System.out.println("Opción no válida. Inténtalo de nuevo.");
             }
@@ -163,7 +163,7 @@ public class MenuPrincipal {
         Controlador.eliminarInscripcionPA(numeroInscripcion);
     }
 
-    private static void registrarExcursionPAMenu() {
+    private static void registrarExcursionJPAMenu() {
         System.out.println("=== Registrar Excursión ===");
         System.out.print("Código: ");
         String codigo = scanner.nextLine();
@@ -182,7 +182,7 @@ public class MenuPrincipal {
         scanner.nextLine();  // Capturar la línea vacía
 
         // Ahora llamamos al controlador
-        Controlador.registrarExcursionPA(codigo, descripcion, fecha, numeroDias, precio);
+        ControladorJPA.registrarExcursionJPA(codigo, descripcion, fecha, numeroDias, precio);
 
     }
 
@@ -225,7 +225,7 @@ public class MenuPrincipal {
     }
 
 
-    private static void eliminarExcursionPAMenu() {
+    private static void eliminarExcursionJPAMenu() {
         System.out.println("=== Eliminar Excursión ===");
         System.out.print("ID de la Excursión: ");
         String idExcursion = scanner.nextLine();

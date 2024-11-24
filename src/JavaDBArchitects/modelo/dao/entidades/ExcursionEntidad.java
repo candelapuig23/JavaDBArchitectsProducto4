@@ -8,7 +8,6 @@ import java.time.format.DateTimeFormatter;
 
 import jakarta.persistence.*;
 
-
 @Entity
 @Table(name = "excursiones")
 public class ExcursionEntidad {
@@ -36,8 +35,8 @@ public class ExcursionEntidad {
     public ExcursionEntidad() {
     }
 
-    // Getters y Setters
-    public String getIdExcursion() {
+    // Getters y Setters (corregido el getter)
+    public String getIdExcursion() {  // Renombrado correctamente
         return idExcursion;
     }
 
