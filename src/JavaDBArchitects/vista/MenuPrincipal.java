@@ -258,17 +258,27 @@ public class MenuPrincipal {
 
         Controlador.modificarDatosSocio(numeroSocio, nuevoNombre);
     }
+
     private static void modificarDatosJPASocio() {
         System.out.println("=== Modificar Datos del Socio ===");
         System.out.print("Número de Socio: ");
         int numeroSocio = scanner.nextInt();
-        scanner.nextLine();
-        System.out.print("Nuevo nombre del socio: ");
-        String nuevoNombre = scanner.nextLine();
+        scanner.nextLine();  // Capturar la línea vacía
 
-        // Llamar al método del ControladorJPA para modificar los datos del socio
-        ControladorJPA.modificarDatosSocio(numeroSocio, nuevoNombre);
+        System.out.print("Nuevo nombre del socio (o presione Enter para omitir): ");
+        String nuevoNombre = scanner.nextLine();
+        System.out.print("Nuevo NIF (o presione Enter para omitir): ");
+        String nuevoNIF = scanner.nextLine();
+        System.out.print("Nuevo Tipo de Socio (Estandar, Federado, Infantil; o presione Enter para omitir): ");
+        String nuevoTipoSocio = scanner.nextLine();
+        System.out.print("ID de la nueva Federación (o presione Enter para omitir): ");
+        String nuevaFederacionIdStr = scanner.nextLine();
+        Integer nuevaFederacionId = nuevaFederacionIdStr.isEmpty() ? null : Integer.parseInt(nuevaFederacionIdStr);
+
+        ControladorJPA.modificarDatosSocio(numeroSocio, nuevoNombre, nuevoNIF, nuevoTipoSocio, nuevaFederacionId);
     }
+
+
 
     private static void eliminarInscripcionPAMenu() {
         System.out.println("=== Eliminar Inscripción ===");
@@ -337,8 +347,10 @@ public class MenuPrincipal {
         String fechaFinStr = scanner.nextLine();
         LocalDate fechaFin = fechaFinStr.isEmpty() ? null : LocalDate.parse(fechaFinStr, formatter);
 
-        Controlador.mostrarInscripcionesConFiltros(numeroSocio, fechaInicio, fechaFin);
+        // Llamar al método en el controlador JPA
+        ControladorJPA.mostrarInscripcionesConFiltros(numeroSocio, fechaInicio, fechaFin);
     }
+
 
 
     private static void eliminarExcursionJPAMenu() {

@@ -14,29 +14,22 @@ public class SocioDAOJPA {
 
     public void registrarSocioJPA(String nombre, int tipoSocio, String nif, int idFederacion, Integer idSocioPadre, Object extra, String nombreFederacion) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
+
         try {
             entityManager.getTransaction().begin();
 
-            // Crear el objeto SocioEntidad
+            // Crear el socio
             SocioEntidad socio = new SocioEntidad();
             socio.setNombre(nombre);
             socio.setTipoSocio(obtenerTipoSocio(tipoSocio));
             socio.setNif(nif);
 
-            // Si es un socio federado, buscar la federación y asignarla
             if (tipoSocio == 1) { // Federado
-                FederacionEntidad federacion = entityManager.find(FederacionEntidad.class, idFederacion);
-                if (federacion == null) {
-                    // Si la federación no existe, la creamos
-                    federacion = new FederacionEntidad();
-                    federacion.setIdFederacion(idFederacion);
-                    federacion.setNombre(nombreFederacion);
-                    entityManager.persist(federacion);
-                }
+                // Crear o asociar la federación
+                FederacionEntidad federacion = crearFederacionSiNoExiste(entityManager, idFederacion, nombreFederacion);
                 socio.setFederacion(federacion);
             }
 
-            // Si es un socio infantil, buscar al socio padre y asignarlo
             if (tipoSocio == 2) { // Infantil
                 if (idSocioPadre != null) {
                     SocioEntidad socioPadre = entityManager.find(SocioEntidad.class, idSocioPadre);
@@ -45,12 +38,13 @@ public class SocioDAOJPA {
                     }
                     socio.setSocioPadre(socioPadre);
                 } else {
-                    throw new IllegalArgumentException("Para registrar un socio infantil, se debe proporcionar el número del socio padre.");
+                    throw new IllegalArgumentException("Debe proporcionar un socio padre para socios infantiles.");
                 }
             }
 
-            // Persistir el socio en la base de datos
+            // Persistir el socio
             entityManager.persist(socio);
+
             entityManager.getTransaction().commit();
             System.out.println("Socio registrado correctamente.");
         } catch (Exception e) {
@@ -63,6 +57,31 @@ public class SocioDAOJPA {
             entityManager.close();
         }
     }
+
+
+
+    private FederacionEntidad crearFederacionSiNoExiste(EntityManager entityManager, int idFederacion, String nombreFederacion) {
+        // Verificar si la federación ya existe en la base de datos
+        FederacionEntidad federacion = entityManager.find(FederacionEntidad.class, idFederacion);
+
+        if (federacion == null) {
+            // Crear una nueva federación
+            federacion = new FederacionEntidad();
+            federacion.setIdFederacion(idFederacion);
+            federacion.setNombre(nombreFederacion);
+
+            // Usar merge para asegurarnos de que la federación esté gestionada
+            federacion = entityManager.merge(federacion);
+        }
+
+        return federacion;
+    }
+
+
+
+
+
+    //submetodo para obtener el tipo de socio
 
     private String obtenerTipoSocio(int tipoSocio) {
         switch (tipoSocio) {
@@ -207,7 +226,7 @@ public class SocioDAOJPA {
 
         return eliminado;
     }
-
+    //===========Metodo para obtener socio por numero ============
     public SocioEntidad obtenerSocioPorNumero(int numeroSocio) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         SocioEntidad socio = null;
@@ -219,6 +238,58 @@ public class SocioDAOJPA {
             entityManager.close();
         }
         return socio;
+    }
+
+    //===========Metodo para editar datos de un socio============
+    public void modificarDatosSocioJPA(int numeroSocio, String nuevoNombre, String nuevoNIF, String nuevoTipoSocio, Integer nuevaFederacionId) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        try {
+            // Iniciar transacción
+            entityManager.getTransaction().begin();
+
+            // Buscar el socio por su número
+            SocioEntidad socio = entityManager.find(SocioEntidad.class, numeroSocio);
+            if (socio == null) {
+                System.out.println("Error: El socio con número " + numeroSocio + " no existe.");
+                entityManager.getTransaction().rollback();
+                return;
+            }
+
+            // Actualizar los campos que no son nulos
+            if (nuevoNombre != null && !nuevoNombre.isEmpty()) {
+                socio.setNombre(nuevoNombre);
+            }
+            if (nuevoNIF != null && !nuevoNIF.isEmpty()) {
+                socio.setNif(nuevoNIF);
+            }
+            if (nuevoTipoSocio != null && !nuevoTipoSocio.isEmpty()) {
+                socio.setTipoSocio(nuevoTipoSocio);
+            }
+            if (nuevaFederacionId != null) {
+                FederacionEntidad nuevaFederacion = entityManager.find(FederacionEntidad.class, nuevaFederacionId);
+                if (nuevaFederacion == null) {
+                    System.out.println("Error: La federación con ID " + nuevaFederacionId + " no existe.");
+                } else {
+                    socio.setFederacion(nuevaFederacion);
+                }
+            }
+
+            // Persistir los cambios
+            entityManager.merge(socio);
+
+            // Confirmar la transacción
+            entityManager.getTransaction().commit();
+            System.out.println("Datos del socio actualizados con éxito.");
+        } catch (Exception e) {
+            // En caso de error, revertir la transacción
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+            }
+            System.err.println("Error al modificar los datos del socio: " + e.getMessage());
+        } finally {
+            entityManager.close();
+        }
     }
 
 

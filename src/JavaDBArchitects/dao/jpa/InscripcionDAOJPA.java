@@ -127,7 +127,7 @@ public class InscripcionDAOJPA {
         return eliminado;
     }
 
-    //metodo para obtener inscripciones por socio
+    //============ metodo para obtener inscripciones por socio =========
     public List<InscripcionEntidad> getInscripcionesBySocio(int numeroSocio) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         List<InscripcionEntidad> inscripciones = null;
@@ -145,6 +145,50 @@ public class InscripcionDAOJPA {
 
         return inscripciones;
     }
+
+//============ metodo con filtros dinámicos para filtrar las inscripciones por numero de socio y rango de fechas =====
+
+    public List<InscripcionEntidad> getInscripcionesConFiltros(Integer numeroSocio, LocalDate fechaInicio, LocalDate fechaFin) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        List<InscripcionEntidad> inscripciones = null;
+
+        try {
+            // Construcción dinámica de la consulta JPQL
+            StringBuilder jpql = new StringBuilder("SELECT i FROM InscripcionEntidad i WHERE 1=1");
+
+            // Filtro por número de socio (opcional)
+            if (numeroSocio != null) {
+                jpql.append(" AND i.socio.numeroSocio = :numeroSocio");
+            }
+
+            // Filtro por rango de fechas en fecha_inscripcion (opcional)
+            if (fechaInicio != null && fechaFin != null) {
+                jpql.append(" AND i.fechaInscripcion BETWEEN :fechaInicio AND :fechaFin");
+            }
+
+            // Crear consulta
+            var query = entityManager.createQuery(jpql.toString(), InscripcionEntidad.class);
+
+            // Configurar parámetros dinámicos
+            if (numeroSocio != null) {
+                query.setParameter("numeroSocio", numeroSocio);
+            }
+            if (fechaInicio != null && fechaFin != null) {
+                query.setParameter("fechaInicio", java.sql.Date.valueOf(fechaInicio));
+                query.setParameter("fechaFin", java.sql.Date.valueOf(fechaFin));
+            }
+
+            // Ejecutar consulta
+            inscripciones = query.getResultList();
+        } catch (Exception e) {
+            System.err.println("Error al filtrar inscripciones: " + e.getMessage());
+        } finally {
+            entityManager.close();
+        }
+
+        return inscripciones;
+    }
+
 
 
 }

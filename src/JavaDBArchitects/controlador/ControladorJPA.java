@@ -6,6 +6,7 @@ import JavaDBArchitects.dao.jpa.SocioDAOJPA;
 import JavaDBArchitects.dao.entidades.SocioEntidad;
 import JavaDBArchitects.dao.entidades.InscripcionEntidad;
 import JavaDBArchitects.dao.entidades.ExcursionEntidad;
+import JavaDBArchitects.vista.MenuPrincipal;
 import java.math.BigDecimal;
 import java.util.List;
 import java.time.LocalDate;
@@ -36,6 +37,8 @@ public class ControladorJPA {
             e.printStackTrace();
         }
     }
+
+
 
     //Opción 3: Inscribir en excursión
 
@@ -119,13 +122,15 @@ public class ControladorJPA {
 
     //Opción 7: Modificar datos socio
 
-    public static void modificarDatosSocio(int numeroSocio, String nuevoNombre) {
+    public static void modificarDatosSocio(int numeroSocio, String nuevoNombre, String nuevoNIF, String nuevoTipoSocio, Integer nuevaFederacionId) {
         try {
-            socioDAOJPA.modificarDatosSocioJPA(numeroSocio, nuevoNombre);
+            socioDAOJPA.modificarDatosSocioJPA(numeroSocio, nuevoNombre, nuevoNIF, nuevoTipoSocio, nuevaFederacionId);
         } catch (Exception e) {
             System.err.println("Error al modificar los datos del socio: " + e.getMessage());
         }
     }
+
+
 
     //Opción 8: Mostrar socios por tipo
 
@@ -162,6 +167,22 @@ public class ControladorJPA {
         }
         return eliminado;
     }
+
+    //Opcion 11: Mostrar inscripciones con filtros
+
+    public static void mostrarInscripcionesConFiltros(Integer numeroSocio, LocalDate fechaInicio, LocalDate fechaFin) {
+        InscripcionDAOJPA inscripcionDAO = new InscripcionDAOJPA();
+        List<InscripcionEntidad> inscripciones = inscripcionDAO.getInscripcionesConFiltros(numeroSocio, fechaInicio, fechaFin);
+
+        if (inscripciones == null || inscripciones.isEmpty()) {
+            System.out.println("No se encontraron inscripciones con los filtros aplicados.");
+        } else {
+            for (InscripcionEntidad inscripcion : inscripciones) {
+                System.out.println("Inscripción: " + inscripcion);
+            }
+        }
+    }
+
 
     //Opcion 12: Eliminar excursion
 
