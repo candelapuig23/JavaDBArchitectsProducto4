@@ -104,6 +104,9 @@ public abstract class Socio {
         this.cuotaMensual = cuotaMensual;
     }
 
+
+
+
     /**
      * Método abstracto que debe ser implementado por cada subclase de Socio para calcular la cuota mensual.
      *

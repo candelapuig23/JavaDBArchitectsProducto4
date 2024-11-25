@@ -238,8 +238,15 @@ public class MenuPrincipal {
         int numeroSocio = scanner.nextInt();
         scanner.nextLine();
 
-        Controlador.consultarFacturaMensual(numeroSocio);
+        try {
+            // Llamar al método del ControladorJPA para calcular la factura mensual
+            ControladorJPA.consultarFacturaMensualJPA(numeroSocio);
+        } catch (Exception e) {
+            System.err.println("Error al consultar la factura mensual: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
+
 
     private static void modificarDatosSocio() {
         System.out.println("=== Modificar Datos del Socio ===");

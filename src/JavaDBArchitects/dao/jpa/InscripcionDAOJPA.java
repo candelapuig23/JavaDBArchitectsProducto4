@@ -126,4 +126,25 @@ public class InscripcionDAOJPA {
 
         return eliminado;
     }
+
+    //metodo para obtener inscripciones por socio
+    public List<InscripcionEntidad> getInscripcionesBySocio(int numeroSocio) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        List<InscripcionEntidad> inscripciones = null;
+
+        try {
+            inscripciones = entityManager.createQuery(
+                    "SELECT i FROM InscripcionEntidad i WHERE i.socio.numeroSocio = :numeroSocio",
+                    InscripcionEntidad.class
+            ).setParameter("numeroSocio", numeroSocio).getResultList();
+        } catch (Exception e) {
+            System.err.println("Error al obtener las inscripciones: " + e.getMessage());
+        } finally {
+            entityManager.close();
+        }
+
+        return inscripciones;
+    }
+
+
 }

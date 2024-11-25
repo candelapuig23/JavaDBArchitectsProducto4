@@ -208,4 +208,21 @@ public class SocioDAOJPA {
         return eliminado;
     }
 
+    public SocioEntidad obtenerSocioPorNumero(int numeroSocio) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        SocioEntidad socio = null;
+        try {
+            socio = entityManager.find(SocioEntidad.class, numeroSocio);
+        } catch (Exception e) {
+            System.err.println("Error al obtener el socio: " + e.getMessage());
+        } finally {
+            entityManager.close();
+        }
+        return socio;
+    }
+
+
+
+
+
 }

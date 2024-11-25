@@ -1,6 +1,7 @@
 package JavaDBArchitects.dao.entidades;
 
 import jakarta.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "socios")
@@ -27,6 +28,9 @@ public class SocioEntidad {
     @ManyToOne
     @JoinColumn(name = "id_socio_padre")
     private SocioEntidad socioPadre;
+
+    @Column(name = "cuota_mensual", nullable = true, precision = 10, scale = 2) // Nueva columna en la base de datos
+    private BigDecimal cuotaMensual;
 
     // Constructor por defecto
     public SocioEntidad() {
@@ -81,6 +85,14 @@ public class SocioEntidad {
         this.socioPadre = socioPadre;
     }
 
+    public BigDecimal getCuotaMensual() {
+        return cuotaMensual;
+    }
+
+    public void setCuotaMensual(BigDecimal cuotaMensual) {
+        this.cuotaMensual = cuotaMensual;
+    }
+
     @Override
     public String toString() {
         return "SocioEntidad{" +
@@ -90,6 +102,7 @@ public class SocioEntidad {
                 ", nif='" + nif + '\'' +
                 ", federacion=" + federacion +
                 ", socioPadre=" + (socioPadre != null ? socioPadre.getNumeroSocio() : "N/A") +
+                ", cuotaMensual=" + cuotaMensual +
                 '}';
     }
 }
