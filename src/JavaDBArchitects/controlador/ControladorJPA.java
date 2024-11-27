@@ -122,7 +122,7 @@ public class ControladorJPA {
 
     //Opción 7: Modificar datos socio
 
-    public static void modificarDatosSocio(int numeroSocio, String nuevoNombre, String nuevoNIF, String nuevoTipoSocio, Integer nuevaFederacionId) {
+    public static void modificarDatosSocioJPA(int numeroSocio, String nuevoNombre, String nuevoNIF, String nuevoTipoSocio, Integer nuevaFederacionId) {
         try {
             socioDAOJPA.modificarDatosSocioJPA(numeroSocio, nuevoNombre, nuevoNIF, nuevoTipoSocio, nuevaFederacionId);
         } catch (Exception e) {
@@ -170,7 +170,7 @@ public class ControladorJPA {
 
     //Opcion 11: Mostrar inscripciones con filtros
 
-    public static void mostrarInscripcionesConFiltros(Integer numeroSocio, LocalDate fechaInicio, LocalDate fechaFin) {
+    public static void mostrarInscripcionesConFiltrosJPA(Integer numeroSocio, LocalDate fechaInicio, LocalDate fechaFin) {
         InscripcionDAOJPA inscripcionDAO = new InscripcionDAOJPA();
         List<InscripcionEntidad> inscripciones = inscripcionDAO.getInscripcionesConFiltros(numeroSocio, fechaInicio, fechaFin);
 
