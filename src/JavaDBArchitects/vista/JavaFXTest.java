@@ -9,25 +9,23 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class JavaFXTest extends Application {
+
     @Override
-
-    public void start(Stage primaryStage) throws IOException {
-       /// Llama a la lógica de inicialización (si es necesaria)
-        Controlador.iniciarAplicacion();
-
+    public void start(Stage primaryStage) throws Exception {
         // Cargar el archivo FXML
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("vista/MainView.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("MainView.fxml"));
         Parent root = loader.load();
 
-        // Configurar la escena y la ventana
+        // Configurar la escena
         Scene scene = new Scene(root);
-        primaryStage.setTitle("Centro excursionista Senderos y Montañas");
+        primaryStage.setTitle("Centro Excursionista Senderos y Montañas");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
     public static void main(String[] args) {
         // Lanzar la aplicación JavaFX
-        launch(args);
+        launch();
     }
 }
+

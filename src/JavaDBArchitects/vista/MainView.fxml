@@ -6,7 +6,7 @@
 
 <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="786.0" prefWidth="948.0"
       xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="JavaDBArchitects.vista.MenuPrincipal">
+      fx:controller="JavaDBArchitects.vista.JavaFXTest">
    <children>
       <HBox alignment="CENTER" prefHeight="104.0" prefWidth="948.0" style="-fx-border-color: black; -fx-border-width: 10; -fx-border-radius: 30; -fx-padding: 1;">
          <children>
