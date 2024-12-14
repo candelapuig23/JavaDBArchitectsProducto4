@@ -3,6 +3,9 @@ package JavaDBArchitects.vista;
 import JavaDBArchitects.controlador.Controlador;
 import JavaDBArchitects.controlador.ControladorJPA;
 import JavaDBArchitects.modelo.*;
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
@@ -11,6 +14,16 @@ public class MenuPrincipal {
 
     private static final Scanner scanner = new Scanner(System.in);
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+    @FXML
+    private Label labelTitulo;
+
+    @FXML
+    public void initialize() {
+        // Método que se ejecuta automáticamente al cargar el archivo FXML
+        System.out.println("Interfaz inicializada correctamente.");
+    }
+
 
     public static void mostrarMenu() {
         int opcion = -1;

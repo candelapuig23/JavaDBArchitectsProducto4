@@ -10,7 +10,7 @@
    <children>
       <HBox alignment="CENTER" prefHeight="104.0" prefWidth="948.0" style="-fx-border-color: black; -fx-border-width: 10; -fx-border-radius: 30; -fx-padding: 1;">
          <children>
-            <Label alignment="CENTER" contentDisplay="TOP" prefHeight="27.0" prefWidth="513.0" text="Centro excursionista Senderos y Montañas">
+            <Label fx:id="labelTitulo" alignment="CENTER" contentDisplay="TOP" prefHeight="27.0" prefWidth="513.0" text="Centro excursionista Senderos y Montañas">
                <font>
                   <Font name="Arial Bold" size="24.0" />
                </font>
