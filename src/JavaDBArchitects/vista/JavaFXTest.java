@@ -1,29 +1,33 @@
 package JavaDBArchitects.vista;
+import JavaDBArchitects.controlador.Controlador;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class JavaFXTest extends Application {
     @Override
-    public void start(Stage primaryStage) {
-        // Crear un nodo simple para mostrar
-        Label label = new Label("¡JavaFX está funcionando correctamente!");
 
-        // Crear un contenedor para el nodo
-        StackPane root = new StackPane(label);
+    public void start(Stage primaryStage) throws IOException {
+       /// Llama a la lógica de inicialización (si es necesaria)
+        Controlador.iniciarAplicacion();
 
-        // Configurar la escena
-        Scene scene = new Scene(root, 400, 200);
+        // Cargar el archivo FXML
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("vista/MainView.fxml"));
+        Parent root = loader.load();
 
-        // Configurar la ventana (Stage)
-        primaryStage.setTitle("Prueba JavaFX");
+        // Configurar la escena y la ventana
+        Scene scene = new Scene(root);
+        primaryStage.setTitle("Centro excursionista Senderos y Montañas");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
     public static void main(String[] args) {
-        launch();
+        // Lanzar la aplicación JavaFX
+        launch(args);
     }
 }
