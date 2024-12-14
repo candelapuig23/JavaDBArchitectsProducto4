@@ -49,7 +49,7 @@
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-fxml</artifactId>
-      <version>23</version>
+      <version>20</version>
     </dependency>
 
     <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-controls -->
@@ -81,7 +81,7 @@
         <artifactId>javafx-maven-plugin</artifactId>
         <version>0.0.8</version>
         <configuration>
-          <mainClass>vista.MainApp</mainClass> <!-- Cambia por tu clase principal -->
+          <mainClass>JavaDBArchitectsProducto4.Main</mainClass>
         </configuration>
       </plugin>
     </plugins>
