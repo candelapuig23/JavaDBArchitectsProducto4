@@ -1,9 +1,9 @@
 package JavaDBArchitects.vista;
 
-import JavaDBArchitects.controlador.ControladorJPA; // Asegúrate de que ControladorJPA existe
+import JavaDBArchitects.controlador.ControladorJPA;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import java.time.LocalDate; // Import necesario para LocalDate
+import java.time.LocalDate;
 
 public class MainViewController {
 
@@ -23,23 +23,117 @@ public class MainViewController {
     @FXML private TextField txtNombreFederacion;
     @FXML private TextField txtIdPadreMadre;
 
-    // Método initialize: Se ejecuta al cargar la vista
+    @FXML private Label lblIdFederacion, lblNombreFederacion, lblIdPadreMadre;
+
+    // Campos para Eliminar Excursión e Inscripción
+    @FXML private TextField txtIdEliminarExcursion;
+    @FXML private TextField txtIdEliminarInscripcion;
+
     @FXML
     public void initialize() {
-        // Inicializar el ComboBox de tipo de socio
+        // Inicializar ComboBox y configurar evento para cambio dinámico
         cbTipoSocio.getItems().addAll("Estandar", "Federado", "Infantil");
+        cbTipoSocio.setOnAction(event -> actualizarFormularioTipoSocio());
+        actualizarFormularioTipoSocio(); // Configuración inicial
+    }
+
+    // Actualiza la visibilidad de los campos del formulario según el tipo de socio seleccionado
+    @FXML
+    private void actualizarFormularioTipoSocio() {
+        String tipoSocio = cbTipoSocio.getValue();
+
+        // Ocultar todos los campos dinámicos
+        lblIdFederacion.setVisible(false);
+        txtIdFederacion.setVisible(false);
+        lblNombreFederacion.setVisible(false);
+        txtNombreFederacion.setVisible(false);
+        lblIdPadreMadre.setVisible(false);
+        txtIdPadreMadre.setVisible(false);
+
+        // Mostrar campos específicos
+        if ("Federado".equalsIgnoreCase(tipoSocio)) {
+            lblIdFederacion.setVisible(true);
+            txtIdFederacion.setVisible(true);
+            lblNombreFederacion.setVisible(true);
+            txtNombreFederacion.setVisible(true);
+        } else if ("Infantil".equalsIgnoreCase(tipoSocio)) {
+            lblIdPadreMadre.setVisible(true);
+            txtIdPadreMadre.setVisible(true);
+        }
     }
 
 
     @FXML
+    private void registrarSocio() {
+        String nombre = txtNombre.getText();
+        String tipoSocio = cbTipoSocio.getValue();
+        String nif = txtNIF.getText();
+
+        int idFederacion = 0; // Valor por defecto si no es Federado
+        Integer idPadreMadre = null; // Valor por defecto
+        String nombreFederacion = null;
+
+        try {
+            // Validación de campos obligatorios
+            if (nombre == null || nombre.trim().isEmpty() || nif == null || nif.trim().isEmpty()) {
+                mostrarError("El nombre y NIF son campos obligatorios.");
+                return;
+            }
+
+            // Lógica según tipo de socio
+            if ("Federado".equalsIgnoreCase(tipoSocio)) {
+                if (txtIdFederacion.getText() != null && !txtIdFederacion.getText().trim().isEmpty()) {
+                    idFederacion = Integer.parseInt(txtIdFederacion.getText());
+                }
+                nombreFederacion = txtNombreFederacion.getText();
+            } else if ("Infantil".equalsIgnoreCase(tipoSocio)) {
+                if (txtIdPadreMadre.getText() != null && !txtIdPadreMadre.getText().trim().isEmpty()) {
+                    idPadreMadre = Integer.parseInt(txtIdPadreMadre.getText());
+                }
+            }
+
+            // Llamada al método del ControladorJPA
+            ControladorJPA.registrarSocioJPA(
+                    nombre,
+                    tipoSocio(tipoSocio),
+                    nif,
+                    idFederacion,      // Pasa 0 si no aplica
+                    idPadreMadre,      // Pasa null si no aplica
+                    null,
+                    nombreFederacion   // Pasa null si no aplica
+            );
+
+            mostrarMensaje("Socio registrado con éxito.");
+            limpiarFormularioSocio();
+
+        } catch (NumberFormatException e) {
+            mostrarError("Error: Verifica que los campos ID Federación e ID Padre/Madre sean numéricos.");
+        } catch (Exception e) {
+            mostrarError("Error al registrar el socio: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    // Método auxiliar para limpiar los campos del formulario
+    private void limpiarFormularioSocio() {
+        txtNombre.clear();
+        txtNIF.clear();
+        txtIdFederacion.clear();
+        txtNombreFederacion.clear();
+        txtIdPadreMadre.clear();
+        cbTipoSocio.getSelectionModel().clearSelection();
+        actualizarFormularioTipoSocio(); // Reinicia la visibilidad de campos
+    }
+
+
+    // Método para registrar excursión
+    @FXML
     private void registrarExcursion() {
-        // Recoge los datos ingresados en la interfaz
         String idExcursion = txtIdExcursion.getText();
         String descripcion = txtDescripcion.getText();
         LocalDate fecha = (dateFecha.getValue() != null) ? dateFecha.getValue() : null;
         int numDias;
         float precio;
-        String codigo = txtCodigo.getText();
 
         try {
             numDias = Integer.parseInt(txtNumDias.getText());
@@ -49,12 +143,11 @@ public class MainViewController {
             return;
         }
 
-        if (fecha == null || idExcursion.isEmpty() || descripcion.isEmpty() || codigo.isEmpty()) {
+        if (fecha == null || idExcursion.isEmpty() || descripcion.isEmpty()) {
             mostrarError("Error: Por favor, completa todos los campos.");
             return;
         }
 
-        // Llamar al método del ControladorJPA para registrar la excursión
         try {
             ControladorJPA.registrarExcursionJPA(idExcursion, descripcion, fecha, numDias, precio);
             mostrarMensaje("Excursión registrada con éxito.");
@@ -64,69 +157,34 @@ public class MainViewController {
         }
     }
 
-
-
-    // Método para registrar socio
+    // Método para eliminar excursión
     @FXML
-    private void registrarSocio() {
-        String nombre = txtNombre.getText();
-        String tipoSocio = cbTipoSocio.getValue();
-        String nif = txtNIF.getText();
-        Integer idFederacion = null;
-        String nombreFederacion = null;
-        Integer idPadreMadre = null;
+    private void eliminarExcursion() {
+        String idExcursion = txtIdEliminarExcursion.getText();
 
-        try {
-            if ("Federado".equalsIgnoreCase(tipoSocio)) {
-                idFederacion = Integer.parseInt(txtIdFederacion.getText());
-                nombreFederacion = txtNombreFederacion.getText();
-            } else if ("Infantil".equalsIgnoreCase(tipoSocio)) {
-                idPadreMadre = Integer.parseInt(txtIdPadreMadre.getText());
-            }
-
-            ControladorJPA.registrarSocioJPA(nombre, tipoSocio(tipoSocio), nif, idFederacion, idPadreMadre, null, nombreFederacion);
-            mostrarMensaje("Socio registrado con éxito.");
-        } catch (Exception e) {
-            mostrarError("Error al registrar el socio: " + e.getMessage());
-        }
-    }
-
-    //Metodo para eliminar excursion
-
-    @FXML  private TextField txtIdEliminarExcursion;
-
-    @FXML private void eliminarExcursion(){
-
-        String idExcursion =txtIdEliminarExcursion.getText();
-
-        if (idExcursion ==null|| idExcursion.trim().isEmpty()){
-            mostrarError("Por favor, ingresa un ID");
+        if (idExcursion == null || idExcursion.trim().isEmpty()) {
+            mostrarError("Por favor, ingresa un ID válido.");
             return;
         }
-        try{
+        try {
             boolean eliminado = ControladorJPA.eliminarExcursionJPA(idExcursion);
-
             if (eliminado) {
-                mostrarMensaje("Excursión eliminada correctamente");
+                mostrarMensaje("Excursión eliminada correctamente.");
                 txtIdEliminarExcursion.clear();
             } else {
-                mostrarError("El ID indicado no corresponde a ninguna excursión existente");
+                mostrarError("El ID indicado no corresponde a ninguna excursión.");
             }
-        }catch (Exception e){
-            mostrarError("Error al eliminar la excursión:" + e.getMessage());
+        } catch (Exception e) {
+            mostrarError("Error al eliminar la excursión: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
-    //metodo para eliminar inscripcion
-
-    @FXML private TextField txtIdEliminarInscripcion;
-
+    // Método para eliminar inscripción
     @FXML
     private void eliminarInscripcion() {
         String idInscripcionText = txtIdEliminarInscripcion.getText();
 
-        // Validar entrada
         if (idInscripcionText == null || idInscripcionText.trim().isEmpty()) {
             mostrarError("Por favor, ingresa un ID de inscripción válido.");
             return;
@@ -134,15 +192,12 @@ public class MainViewController {
 
         try {
             int idInscripcion = Integer.parseInt(idInscripcionText);
-
-            // Llamar al controlador
             boolean eliminado = ControladorJPA.eliminarInscripcion(idInscripcion);
-
             if (eliminado) {
                 mostrarMensaje("Inscripción eliminada correctamente.");
                 txtIdEliminarInscripcion.clear();
             } else {
-                mostrarError("El ID indicado no corresponde a ninguna inscripción existente.");
+                mostrarError("El ID indicado no corresponde a ninguna inscripción.");
             }
         } catch (NumberFormatException e) {
             mostrarError("Error: El ID de inscripción debe ser un número válido.");
@@ -152,12 +207,11 @@ public class MainViewController {
         }
     }
 
-
     private int tipoSocio(String tipoSocio) {
         return switch (tipoSocio.toLowerCase()) {
             case "federado" -> 1;
             case "infantil" -> 2;
-            default -> 0; // Estandar
+            default -> 0;
         };
     }
 
@@ -175,4 +229,3 @@ public class MainViewController {
         alert.showAndWait();
     }
 }
-

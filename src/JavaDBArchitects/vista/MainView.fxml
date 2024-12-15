@@ -73,33 +73,26 @@
                            <TextField fx:id="txtNombre" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
                            <Label text="Tipo de Socio:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                           <ComboBox fx:id="cbTipoSocio" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                           <ComboBox fx:id="cbTipoSocio" onAction="#actualizarFormularioTipoSocio" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
                            <Label text="NIF:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
                            <TextField fx:id="txtNIF" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-                           <Label text="ID Federación:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-                           <TextField fx:id="txtIdFederacion" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                           <Label text="ID Federación:" GridPane.columnIndex="0" GridPane.rowIndex="3" fx:id="lblIdFederacion" visible="false" />
+                           <TextField fx:id="txtIdFederacion" GridPane.columnIndex="1" GridPane.rowIndex="3" visible="false" />
 
-                           <Label text="Nombre Federación:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-                           <TextField fx:id="txtNombreFederacion" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                           <Label text="Nombre Federación:" GridPane.columnIndex="0" GridPane.rowIndex="4" fx:id="lblNombreFederacion" visible="false" />
+                           <TextField fx:id="txtNombreFederacion" GridPane.columnIndex="1" GridPane.rowIndex="4" visible="false" />
 
-                           <Label text="ID Padre/Madre:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-                           <TextField fx:id="txtIdPadreMadre" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                           <Label text="ID Padre/Madre:" GridPane.columnIndex="0" GridPane.rowIndex="5" fx:id="lblIdPadreMadre" visible="false" />
+                           <TextField fx:id="txtIdPadreMadre" GridPane.columnIndex="1" GridPane.rowIndex="5" visible="false" />
                         </children>
-                        <rowConstraints>
-                           <RowConstraints />
-                           <RowConstraints />
-                           <RowConstraints />
-                           <RowConstraints />
-                           <RowConstraints />
-                           <RowConstraints />
-                        </rowConstraints>
                      </GridPane>
                      <Button onAction="#registrarSocio" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Registrar Socio" />
                   </VBox>
                </content>
             </Tab>
+
 
             <!-- Pestaña de Eliminar Inscricpión -->
 
