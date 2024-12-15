@@ -6,8 +6,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
 public class JavaFXTest extends Application {
 
     @Override
@@ -18,7 +16,7 @@ public class JavaFXTest extends Application {
 
         // Configurar la escena
         Scene scene = new Scene(root);
-        primaryStage.setTitle("Centro Excursionista Senderos y Montañas");
+        primaryStage.setTitle("Software centro excursionista");
         primaryStage.setScene(scene);
         primaryStage.show();
     }

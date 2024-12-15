@@ -15,14 +15,7 @@ public class MenuPrincipal {
     private static final Scanner scanner = new Scanner(System.in);
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    @FXML
-    private Label labelTitulo;
 
-    @FXML
-    public void initialize() {
-        // Método que se ejecuta automáticamente al cargar el archivo FXML
-        System.out.println("Interfaz inicializada correctamente.");
-    }
 
 
     public static void mostrarMenu() {

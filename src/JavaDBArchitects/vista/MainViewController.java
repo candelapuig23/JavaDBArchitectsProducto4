@@ -91,6 +91,33 @@ public class MainViewController {
         }
     }
 
+    //Metodo para eliminar excursion
+
+    @FXML  private TextField txtIdEliminarExcursion;
+
+    @FXML private void eliminarExcursion(){
+
+        String idExcursion =txtIdEliminarExcursion.getText();
+
+        if (idExcursion ==null|| idExcursion.trim().isEmpty()){
+            mostrarError("Por favor, ingresa un ID");
+            return;
+        }
+        try{
+            boolean eliminado = ControladorJPA.eliminarExcursionJPA(idExcursion);
+
+            if (eliminado){
+                mostrarMensaje("Excursión eliminada correctamente");
+                txtIdEliminarExcursion.clear();
+            }else{
+                mostrarError("El ID indicado no corresponde a ningua ecursión existente");
+            }
+        }catch (Exception e){
+            mostrarError("Error al eliminar la excursión:" + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
     private int tipoSocio(String tipoSocio) {
         return switch (tipoSocio.toLowerCase()) {
             case "federado" -> 1;

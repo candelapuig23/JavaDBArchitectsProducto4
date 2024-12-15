@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="TOP_CENTER" spacing="20" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaDBArchitects.vista.MainViewController">
+<VBox alignment="TOP_CENTER" spacing="20" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaDBArchitects.vista.MainViewController">
    <children>
       <!-- Título -->
       <HBox alignment="CENTER" style="-fx-border-color: black; -fx-border-width: 10;">
          <children>
-            <Label fx:id="labelTitulo" text="Centro excursionista Senderos y Montañas" style="-fx-font-size: 24px; -fx-font-weight: bold;" />
+            <Label fx:id="labelTitulo" style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Centro excursionista Senderos y Montañas" />
          </children>
       </HBox>
 
@@ -18,33 +19,41 @@
             <Tab text="Registrar Excursión">
                <content>
                   <VBox alignment="CENTER" spacing="10">
-                     <Label text="Registrar Excursión" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+                     <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Registrar Excursión" />
                      <GridPane hgap="10" vgap="10">
                         <columnConstraints>
                            <ColumnConstraints halignment="RIGHT" />
                            <ColumnConstraints halignment="LEFT" />
                         </columnConstraints>
                         <children>
-                           <Label text="ID Excursión:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-                           <TextField fx:id="txtIdExcursion" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                           <Label text="ID Excursión:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                           <TextField fx:id="txtIdExcursion" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-                           <Label text="Descripción:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-                           <TextField fx:id="txtDescripcion" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                           <Label text="Descripción:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                           <TextField fx:id="txtDescripcion" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-                           <Label text="Fecha:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-                           <DatePicker fx:id="dateFecha" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                           <Label text="Fecha:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                           <DatePicker fx:id="dateFecha" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-                           <Label text="Número de Días:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-                           <TextField fx:id="txtNumDias" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                           <Label text="Número de Días:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                           <TextField fx:id="txtNumDias" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-                           <Label text="Precio:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
-                           <TextField fx:id="txtPrecio" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+                           <Label text="Precio:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                           <TextField fx:id="txtPrecio" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
-                           <Label text="Código:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
-                           <TextField fx:id="txtCodigo" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+                           <Label text="Código:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                           <TextField fx:id="txtCodigo" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                         </children>
+                        <rowConstraints>
+                           <RowConstraints />
+                           <RowConstraints />
+                           <RowConstraints />
+                           <RowConstraints />
+                           <RowConstraints />
+                           <RowConstraints />
+                        </rowConstraints>
                      </GridPane>
-                     <Button text="Registrar Excursión" onAction="#registrarExcursion" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" />
+                     <Button onAction="#registrarExcursion" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Registrar Excursión" />
                   </VBox>
                </content>
             </Tab>
@@ -53,34 +62,67 @@
             <Tab text="Registrar Socio">
                <content>
                   <VBox alignment="CENTER" spacing="10">
-                     <Label text="Registrar Socio" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+                     <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Registrar Socio" />
                      <GridPane hgap="10" vgap="10">
                         <columnConstraints>
                            <ColumnConstraints halignment="RIGHT" />
                            <ColumnConstraints halignment="LEFT" />
                         </columnConstraints>
                         <children>
-                           <Label text="Nombre:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-                           <TextField fx:id="txtNombre" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                           <Label text="Nombre:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                           <TextField fx:id="txtNombre" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-                           <Label text="Tipo de Socio:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-                           <ComboBox fx:id="cbTipoSocio" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                           <Label text="Tipo de Socio:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                           <ComboBox fx:id="cbTipoSocio" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-                           <Label text="NIF:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-                           <TextField fx:id="txtNIF" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                           <Label text="NIF:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                           <TextField fx:id="txtNIF" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-                           <Label text="ID Federación:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-                           <TextField fx:id="txtIdFederacion" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                           <Label text="ID Federación:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                           <TextField fx:id="txtIdFederacion" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-                           <Label text="Nombre Federación:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
-                           <TextField fx:id="txtNombreFederacion" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+                           <Label text="Nombre Federación:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                           <TextField fx:id="txtNombreFederacion" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
-                           <Label text="ID Padre/Madre:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
-                           <TextField fx:id="txtIdPadreMadre" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+                           <Label text="ID Padre/Madre:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                           <TextField fx:id="txtIdPadreMadre" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                         </children>
+                        <rowConstraints>
+                           <RowConstraints />
+                           <RowConstraints />
+                           <RowConstraints />
+                           <RowConstraints />
+                           <RowConstraints />
+                           <RowConstraints />
+                        </rowConstraints>
                      </GridPane>
-                     <Button text="Registrar Socio" onAction="#registrarSocio" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" />
+                     <Button onAction="#registrarSocio" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Registrar Socio" />
                   </VBox>
+               </content>
+            </Tab>
+
+            <!-- Pestaña de Eliminar Socio -->
+
+            <Tab text="Eliminar Excursión">
+               <content>
+                  <VBox alignment="TOP_CENTER" spacing="10">
+                     <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Eliminar Excursión" />
+                     <HBox prefHeight="15.0" prefWidth="500.0" style="-fx-padding: 0 0 0 15;">
+                        <children>
+                           <Label prefHeight="17.0" prefWidth="323.0" text="Indique el identificador de la excursión que quiere eliminar:" />
+                        </children>
+                     </HBox>
+                     <HBox prefHeight="32.0" prefWidth="500.0" style="-fx-padding: 0 0 0 15;">
+                        <children>
+                           <TextField fx:id="txtIdEliminarExcursion" />
+                        </children>
+                     </HBox>
+                     <HBox alignment="CENTER" prefHeight="75.0" prefWidth="500.0">
+                        <children>
+                           <Button onAction="#eliminarExcursion" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Eliminar Excursión" />
+                        </children>
+                     </HBox>
+                     </VBox>
                </content>
             </Tab>
          </tabs>
