@@ -56,37 +56,28 @@ public class InscripcionDAOJPA {
         }
     }
 
-    //================Metodo para listar inscripciones==============
+    //================Metodo para listar inscripciones modificado para JAvaFX==============
 
-    public void listarInscripcionesJPA() {
+    public List<InscripcionEntidad> listarInscripcionesJPA() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
+        List<InscripcionEntidad> inscripciones = null;
 
         try {
-            entityManager.getTransaction().begin();
-
             // Consulta JPA para obtener todas las inscripciones
-            List<InscripcionEntidad> inscripciones = entityManager.createQuery("SELECT i FROM InscripcionEntidad i", InscripcionEntidad.class).getResultList();
+            inscripciones = entityManager.createQuery(
+                    "SELECT i FROM InscripcionEntidad i", InscripcionEntidad.class
+            ).getResultList();
 
-            // Mostrar el resultado
-            for (InscripcionEntidad inscripcion : inscripciones) {
-                System.out.println("ID Inscripción: " + inscripcion.getIdInscripcion());
-                System.out.println("ID Socio: " + inscripcion.getSocio().getNumeroSocio() + " - Nombre Socio: " + inscripcion.getSocio().getNombre());
-                System.out.println("ID Excursión: " + inscripcion.getExcursion().getIdExcursion() + " - Descripción Excursión: " + inscripcion.getExcursion().getDescripcion());
-                System.out.println("Fecha Inscripción: " + inscripcion.getFechaInscripcion());
-                System.out.println("------------------------------------");
-            }
-
-            entityManager.getTransaction().commit();
         } catch (Exception e) {
-            if (entityManager.getTransaction().isActive()) {
-                entityManager.getTransaction().rollback();
-                System.err.println("Error al listar inscripciones: " + e.getMessage());
-            }
+            System.err.println("Error al listar inscripciones: " + e.getMessage());
             e.printStackTrace();
         } finally {
             entityManager.close();
         }
+
+        return inscripciones; // Devuelve la lista de inscripciones
     }
+
 
     //============Metodo para eliminar inscripcion===========
 

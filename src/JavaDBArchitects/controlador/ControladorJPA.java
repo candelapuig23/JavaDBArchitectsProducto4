@@ -52,27 +52,32 @@ public class ControladorJPA {
         }
     }
 
-    //Opción 4: Listar excursiones por fecha
+    //Opción 4: Listar excursiones por fecha modificado apara javafx
 
-    public static void listarExcursionesPorFechaJPA(LocalDate fechaInicio, LocalDate fechaFin) {
+    public static List<ExcursionEntidad> listarExcursionesPorFechaJPA(LocalDate fechaInicio, LocalDate fechaFin) {
         ExcursionDAOJPA excursionDAO = new ExcursionDAOJPA();
         try {
-            excursionDAO.listarExcursionesPorFechaJPA(fechaInicio, fechaFin);
+            return excursionDAO.listarExcursionesPorFechaJPA(fechaInicio, fechaFin); // Retorna la lista de excursiones
         } catch (Exception e) {
             System.err.println("Error al listar excursiones: " + e.getMessage());
             e.printStackTrace();
+            return List.of(); // Devuelve una lista vacía en caso de error
         }
     }
 
-    //Opción 5: Listar inscripciones
+    //Opción 5: Listar inscripciones modificado para favafx
 
-    public static void listarInscripcionesJPA() {
+    public static List<InscripcionEntidad> listarInscripcionesJPA() {
+        InscripcionDAOJPA inscripcionDAO = new InscripcionDAOJPA();
         try {
-            inscripcionDAOJPA.listarInscripcionesJPA();
+            return inscripcionDAO.listarInscripcionesJPA(); // Retorna la lista obtenida del DAO
         } catch (Exception e) {
             System.err.println("Error al listar inscripciones: " + e.getMessage());
+            e.printStackTrace();
+            return List.of(); // Retorna una lista vacía en caso de error
         }
     }
+
 
 
     public static void consultarFacturaMensualJPA(int numeroSocio) {

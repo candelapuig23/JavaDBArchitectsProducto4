@@ -4,6 +4,12 @@ import JavaDBArchitects.controlador.ControladorJPA;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import java.time.LocalDate;
+import javafx.scene.control.cell.PropertyValueFactory;
+import JavaDBArchitects.dao.entidades.ExcursionEntidad;
+import JavaDBArchitects.dao.entidades.InscripcionEntidad;
+import javafx.beans.property.SimpleStringProperty; // Para SimpleStringProperty
+import java.util.List; // Para List
+
 
 public class MainViewController {
 
@@ -29,13 +35,61 @@ public class MainViewController {
     @FXML private TextField txtIdEliminarExcursion;
     @FXML private TextField txtIdEliminarInscripcion;
 
+    // Campos para Inscribir en Excursión
+    @FXML private TextField txtNumeroSocio;
+    @FXML private TextField txtCodigoExcursion;
+    @FXML private DatePicker dateFechaInscripcion;
+
+    // Campos para Listar Excursiones por Fecha
+    @FXML
+    private DatePicker dateInicio;
+    @FXML
+    private DatePicker dateFin;
+
+    @FXML
+    private TableView<ExcursionEntidad> tablaExcursiones;
+    @FXML
+    private TableColumn<ExcursionEntidad, String> colCodigo;
+    @FXML
+    private TableColumn<ExcursionEntidad, String> colDescripcion;
+    @FXML
+    private TableColumn<ExcursionEntidad, LocalDate> colFecha;
+    @FXML
+    private TableColumn<ExcursionEntidad, Integer> colNumDias;
+    @FXML
+    private TableColumn<ExcursionEntidad, Float> colPrecio;
+
+//campos para listar inscripciones
+
+    @FXML private TableView<InscripcionEntidad> tablaInscripciones;
+    @FXML private TableColumn<InscripcionEntidad, Integer> colIdInscripcion;
+    @FXML private TableColumn<InscripcionEntidad, String> colNombreSocio;
+    @FXML private TableColumn<InscripcionEntidad, String> colDescripcionExcursion;
+    @FXML private TableColumn<InscripcionEntidad, LocalDate> colFechaInscripcion;
+
     @FXML
     public void initialize() {
-        // Inicializar ComboBox y configurar evento para cambio dinámico
+        // Inicialización previa
         cbTipoSocio.getItems().addAll("Estandar", "Federado", "Infantil");
         cbTipoSocio.setOnAction(event -> actualizarFormularioTipoSocio());
         actualizarFormularioTipoSocio(); // Configuración inicial
+
+        // Inicializar columnas de la tabla para listar excursiones
+        colCodigo.setCellValueFactory(new PropertyValueFactory<>("codigo"));
+        colDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
+        colFecha.setCellValueFactory(new PropertyValueFactory<>("fecha"));
+        colNumDias.setCellValueFactory(new PropertyValueFactory<>("numDias"));
+        colPrecio.setCellValueFactory(new PropertyValueFactory<>("precio"));
+
+        // Configurar las columnas de la tabla
+        colIdInscripcion.setCellValueFactory(new PropertyValueFactory<>("idInscripcion"));
+        colNombreSocio.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getSocio().getNombre()));
+        colDescripcionExcursion.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getExcursion().getDescripcion()));
+        colFechaInscripcion.setCellValueFactory(new PropertyValueFactory<>("fechaInscripcion"));
     }
+
 
     // Actualiza la visibilidad de los campos del formulario según el tipo de socio seleccionado
     @FXML
@@ -227,5 +281,93 @@ public class MainViewController {
         alert.setTitle("Error");
         alert.setContentText(mensaje);
         alert.showAndWait();
+    }
+
+    // Método para inscribir en excursión
+    @FXML
+    private void inscribirEnExcursion() {
+        String numeroSocioText = txtNumeroSocio.getText();
+        String codigoExcursion = txtCodigoExcursion.getText();
+        LocalDate fechaInscripcion = dateFechaInscripcion.getValue();
+
+        // Validar campos requeridos
+        if (numeroSocioText == null || numeroSocioText.trim().isEmpty() ||
+                codigoExcursion == null || codigoExcursion.trim().isEmpty() ||
+                fechaInscripcion == null) {
+            mostrarError("Todos los campos son obligatorios.");
+            return;
+        }
+
+        try {
+            int numeroSocio = Integer.parseInt(numeroSocioText);
+
+            // Llamada al controlador para inscribir en la excursión
+            ControladorJPA.inscribirEnExcursionJPA(numeroSocio, codigoExcursion, fechaInscripcion);
+            mostrarMensaje("Inscripción realizada con éxito.");
+            limpiarFormularioInscripcion();
+
+        } catch (NumberFormatException e) {
+            mostrarError("Error: El número de socio debe ser un valor numérico.");
+        } catch (IllegalArgumentException e) {
+            mostrarError("Error: " + e.getMessage());
+        } catch (Exception e) {
+            mostrarError("Error al inscribir en la excursión: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    // Método auxiliar para limpiar el formulario de inscripción
+    private void limpiarFormularioInscripcion() {
+        txtNumeroSocio.clear();
+        txtCodigoExcursion.clear();
+        dateFechaInscripcion.setValue(null);
+    }
+
+    @FXML
+    private void listarExcursionesPorFecha() {
+        // Obtener las fechas desde los DatePicker
+        LocalDate fechaInicio = dateInicio.getValue();
+        LocalDate fechaFin = dateFin.getValue();
+
+        // Validar fechas
+        if (fechaInicio == null || fechaFin == null) {
+            mostrarError("Por favor, selecciona ambas fechas.");
+            return;
+        }
+        if (fechaInicio.isAfter(fechaFin)) {
+            mostrarError("La fecha de inicio no puede ser posterior a la fecha de fin.");
+            return;
+        }
+
+        try {
+            // Llamar al método del controlador para obtener las excursiones
+            var excursiones = ControladorJPA.listarExcursionesPorFechaJPA(fechaInicio, fechaFin);
+
+            // Actualizar la tabla
+            tablaExcursiones.getItems().clear();
+            tablaExcursiones.getItems().addAll(excursiones);
+
+        } catch (Exception e) {
+            mostrarError("Error al listar excursiones: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+//listar inscripciones
+
+    @FXML
+    private void listarInscripciones() {
+        try {
+            // Obtener la lista de inscripciones
+            List<InscripcionEntidad> inscripciones = ControladorJPA.listarInscripcionesJPA();
+
+            // Actualizar la tabla
+            tablaInscripciones.getItems().clear();
+            tablaInscripciones.getItems().addAll(inscripciones);
+
+        } catch (Exception e) {
+            mostrarError("Error al listar inscripciones: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }

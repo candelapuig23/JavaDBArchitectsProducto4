@@ -47,12 +47,10 @@ public class ExcursionDAOJPA {
 
     //=============Metodo para listar las excursiones por fecha===========
 
-    public void listarExcursionesPorFechaJPA(LocalDate fechaInicio, LocalDate fechaFin) {
+    public List<ExcursionEntidad> listarExcursionesPorFechaJPA(LocalDate fechaInicio, LocalDate fechaFin) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
+        List<ExcursionEntidad> excursiones = null; // Inicializar la lista
         try {
-            // Comenzar la transacción
-            entityManager.getTransaction().begin();
-
             // JPQL para seleccionar excursiones entre dos fechas
             TypedQuery<ExcursionEntidad> query = entityManager.createQuery(
                     "SELECT e FROM ExcursionEntidad e WHERE e.fecha BETWEEN :fechaInicio AND :fechaFin",
@@ -61,34 +59,18 @@ public class ExcursionDAOJPA {
             query.setParameter("fechaInicio", Date.valueOf(fechaInicio));
             query.setParameter("fechaFin", Date.valueOf(fechaFin));
 
-            // Ejecutar la consulta y obtener la lista de resultados
-            List<ExcursionEntidad> excursiones = query.getResultList();
+            // Obtener la lista de resultados
+            excursiones = query.getResultList();
 
-            // Procesar el resultado
-            if (excursiones.isEmpty()) {
-                System.out.println("No se encontraron excursiones en el rango de fechas proporcionado.");
-            } else {
-                for (ExcursionEntidad excursion : excursiones) {
-                    System.out.println("ID Excursión: " + excursion.getIdExcursion());
-                    System.out.println("Descripción: " + excursion.getDescripcion());
-                    System.out.println("Fecha: " + excursion.getFecha());
-                    System.out.println("Número de Días: " + excursion.getNumDias());
-                    System.out.println("Precio: $" + excursion.getPrecio());
-                    System.out.println("------------------------------------");
-                }
-            }
-
-            // Cometer la transacción
-            entityManager.getTransaction().commit();
         } catch (Exception e) {
-            if (entityManager.getTransaction().isActive()) {
-                entityManager.getTransaction().rollback();
-            }
             System.err.println("Error al listar excursiones: " + e.getMessage());
+            e.printStackTrace();
         } finally {
             entityManager.close();
         }
+        return excursiones; // Retornar la lista de excursiones
     }
+
 
     //==============Metodo para eliminar una excursion =============
 
