@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="TOP_CENTER" spacing="20" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaDBArchitects.vista.MainViewController">
+<VBox alignment="TOP_CENTER" prefHeight="531.0" prefWidth="671.0" spacing="20" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaDBArchitects.vista.MainViewController">
    <children>
       <!-- Título -->
       <HBox alignment="CENTER" style="-fx-border-color: black; -fx-border-width: 10;">
@@ -101,7 +101,32 @@
                </content>
             </Tab>
 
-            <!-- Pestaña de Eliminar Socio -->
+            <!-- Pestaña de Eliminar Inscricpión -->
+
+            <Tab text="Eliminar Inscripción">
+               <content>
+                  <VBox alignment="TOP_CENTER" spacing="10">
+                     <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Eliminar Inscripción"/>
+                     <HBox prefHeight="15.0" prefWidth="500.0" style="-fx-padding: 0 0 0 15;">
+                        <children>
+                           <Label prefHeight="17.0" prefWidth="323.0" text="Indique el identificador de la incripción que quiere eliminar:" />
+                        </children>
+                     </HBox>
+                     <HBox prefHeight="32.0" prefWidth="500.0" style="-fx-padding: 0 0 0 15;">
+                        <children>
+                           <TextField fx:id="txtIdEliminarInscripcion" />
+                        </children>
+                     </HBox>
+                     <HBox alignment="CENTER" prefHeight="75.0" prefWidth="500.0">
+                        <children>
+                           <Button onAction="#eliminarInscripcion" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Eliminar Inscripción" />
+                        </children>
+                     </HBox>
+                  </VBox>
+               </content>
+            </Tab>
+
+            <!-- Pestaña de Eliminar Excursion -->
 
             <Tab text="Eliminar Excursión">
                <content>

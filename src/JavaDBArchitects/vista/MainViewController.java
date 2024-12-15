@@ -118,6 +118,41 @@ public class MainViewController {
         }
     }
 
+    //metodo para eliminar inscripcion
+
+    @FXML private TextField txtIdEliminarInscripcion;
+
+    @FXML
+    private void eliminarInscripcion() {
+        String idInscripcionText = txtIdEliminarInscripcion.getText();
+
+        // Validar entrada
+        if (idInscripcionText == null || idInscripcionText.trim().isEmpty()) {
+            mostrarError("Por favor, ingresa un ID de inscripción válido.");
+            return;
+        }
+
+        try {
+            int idInscripcion = Integer.parseInt(idInscripcionText);
+
+            // Llamar al controlador
+            boolean eliminado = ControladorJPA.eliminarInscripcion(idInscripcion);
+
+            if (eliminado) {
+                mostrarMensaje("Inscripción eliminada correctamente.");
+                txtIdEliminarInscripcion.clear();
+            } else {
+                mostrarError("El ID indicado no corresponde a ninguna inscripción existente.");
+            }
+        } catch (NumberFormatException e) {
+            mostrarError("Error: El ID de inscripción debe ser un número válido.");
+        } catch (Exception e) {
+            mostrarError("Error al eliminar la inscripción: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+
     private int tipoSocio(String tipoSocio) {
         return switch (tipoSocio.toLowerCase()) {
             case "federado" -> 1;
