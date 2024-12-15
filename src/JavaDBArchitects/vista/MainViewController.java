@@ -106,11 +106,11 @@ public class MainViewController {
         try{
             boolean eliminado = ControladorJPA.eliminarExcursionJPA(idExcursion);
 
-            if (eliminado){
+            if (eliminado) {
                 mostrarMensaje("Excursión eliminada correctamente");
                 txtIdEliminarExcursion.clear();
-            }else{
-                mostrarError("El ID indicado no corresponde a ningua ecursión existente");
+            } else {
+                mostrarError("El ID indicado no corresponde a ninguna excursión existente");
             }
         }catch (Exception e){
             mostrarError("Error al eliminar la excursión:" + e.getMessage());

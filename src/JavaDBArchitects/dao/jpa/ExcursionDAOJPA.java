@@ -92,8 +92,10 @@ public class ExcursionDAOJPA {
 
     //==============Metodo para eliminar una excursion =============
 
-    public void eliminarExcursionJPA(String idExcursion) {
+    public boolean eliminarExcursionJPA(String idExcursion) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
+        boolean eliminado = false; // Variable para rastrear el éxito de la operación
+
         try {
             entityManager.getTransaction().begin();
 
@@ -111,6 +113,7 @@ public class ExcursionDAOJPA {
             ExcursionEntidad excursion = entityManager.find(ExcursionEntidad.class, idExcursion);
             if (excursion != null) {
                 entityManager.remove(excursion);
+                eliminado = true; // Marcar como éxito si la excursión se elimina
             } else {
                 System.out.println("La excursión con ID " + idExcursion + " no existe.");
             }
@@ -126,6 +129,8 @@ public class ExcursionDAOJPA {
         } finally {
             entityManager.close();
         }
+
+        return eliminado; // Devolver true si se eliminó correctamente, false si no
     }
 }
 

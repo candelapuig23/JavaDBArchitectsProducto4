@@ -188,11 +188,18 @@ public class ControladorJPA {
 
     public static boolean eliminarExcursionJPA(String idExcursion) {
         try {
-            new ExcursionDAOJPA().eliminarExcursionJPA(idExcursion);
-            return true;
+            ExcursionDAOJPA dao = new ExcursionDAOJPA();
+            boolean eliminado = dao.eliminarExcursionJPA(idExcursion); // Llamada al DAO
+
+            if (eliminado) {
+                return true; // Eliminación exitosa
+            } else {
+                System.err.println("La excursión con el ID proporcionado no existe.");
+                return false; // No se encontró el ID
+            }
         } catch (Exception e) {
-            e.printStackTrace();
-            return false;
+            System.err.println("Error al eliminar la excursión: " + e.getMessage());
+            return false; // Error inesperado
         }
     }
 }
