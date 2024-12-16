@@ -408,4 +408,44 @@ public class MainViewController {
             e.printStackTrace();
         }
     }
+
+    //Mostrar Socios por tipo
+
+    @FXML private ComboBox<String> cbTipoSocioBuscar;
+    @FXML private TextArea txtResultadosSocios;
+
+    @FXML
+    private void mostrarSociosPorTipo() {
+        String tipoSeleccionado = cbTipoSocioBuscar.getValue();
+
+        // Validar la selección
+        if (tipoSeleccionado == null || tipoSeleccionado.trim().isEmpty()) {
+            mostrarError("Por favor, selecciona un tipo de socio.");
+            return;
+        }
+
+        try {
+            int tipoSocio = convertirTipoSocio(tipoSeleccionado);
+
+            // Llamar al controlador para obtener los socios
+            ControladorJPA.listarSociosPorTipoJPA(tipoSocio);
+
+            // Mostrar los resultados en el TextArea
+            txtResultadosSocios.setText("Resultados cargados correctamente. Revisa tu consola para detalles.");
+
+        } catch (Exception e) {
+            mostrarError("Error al mostrar los socios: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private int convertirTipoSocio(String tipo) {
+        return switch (tipo.toLowerCase()) {
+            case "federado" -> 1;
+            case "infantil" -> 2;
+            default -> 0; // Estandar
+        };
+    }
+
+
 }
