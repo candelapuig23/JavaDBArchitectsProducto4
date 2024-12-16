@@ -103,57 +103,7 @@
                </content>
             </Tab>
 
-
-            <!-- Pestaña de Eliminar Inscricpión -->
-
-            <Tab text="Eliminar Inscripción">
-               <content>
-                  <VBox alignment="TOP_CENTER" spacing="10">
-                     <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Eliminar Inscripción" />
-                     <HBox prefHeight="15.0" prefWidth="500.0" style="-fx-padding: 0 0 0 15;">
-                        <children>
-                           <Label prefHeight="17.0" prefWidth="323.0" text="Indique el identificador de la incripción que quiere eliminar:" />
-                        </children>
-                     </HBox>
-                     <HBox prefHeight="32.0" prefWidth="500.0" style="-fx-padding: 0 0 0 15;">
-                        <children>
-                           <TextField fx:id="txtIdEliminarInscripcion" />
-                        </children>
-                     </HBox>
-                     <HBox alignment="CENTER" prefHeight="75.0" prefWidth="500.0">
-                        <children>
-                           <Button onAction="#eliminarInscripcion" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Eliminar Inscripción" />
-                        </children>
-                     </HBox>
-                  </VBox>
-               </content>
-            </Tab>
-
-            <!-- Pestaña de Eliminar Excursion -->
-
-            <Tab text="Eliminar Excursión">
-               <content>
-                  <VBox alignment="TOP_CENTER" spacing="10">
-                     <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Eliminar Excursión" />
-                     <HBox prefHeight="15.0" prefWidth="500.0" style="-fx-padding: 0 0 0 15;">
-                        <children>
-                           <Label prefHeight="17.0" prefWidth="323.0" text="Indique el identificador de la excursión que quiere eliminar:" />
-                        </children>
-                     </HBox>
-                     <HBox prefHeight="32.0" prefWidth="500.0" style="-fx-padding: 0 0 0 15;">
-                        <children>
-                           <TextField fx:id="txtIdEliminarExcursion" />
-                        </children>
-                     </HBox>
-                     <HBox alignment="CENTER" prefHeight="75.0" prefWidth="500.0">
-                        <children>
-                           <Button onAction="#eliminarExcursion" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Eliminar Excursión" />
-                        </children>
-                     </HBox>
-                     </VBox>
-               </content>
-            </Tab>
-
+            <!-- Inscribir en excursión -->
             <Tab text="Inscribir en Excursión">
                <content>
                   <VBox alignment="CENTER" spacing="10">
@@ -184,6 +134,7 @@
                </content>
             </Tab>
 
+            <!-- Listar Excursiones por Fecha -->
             <Tab text="Listar Excursiones por Fecha">
                <content>
                   <VBox alignment="CENTER" spacing="15">
@@ -248,26 +199,48 @@
                </content>
             </Tab>
 
-            <!-- Pestaña de Eliminar socio -->
+            <!-- Consultar Factura Mensual -->
+            <Tab text="Consultar Factura Mensual">
+               <content>
+                  <VBox alignment="CENTER" spacing="15" style="-fx-padding: 10;">
+                     <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Consultar Factura Mensual" />
+                     <HBox spacing="10" alignment="CENTER">
+                        <Label text="Número de Socio:" />
+                        <TextField fx:id="txtNumeroSocioFactura" promptText="Ingresa el número de socio" />
+                        <Button text="Consultar Factura" onAction="#consultarFacturaMensual" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" />
+                     </HBox>
+                     <TextArea fx:id="txtResultadoFactura" editable="false" prefHeight="200" wrapText="true" />
+                  </VBox>
+               </content>
+            </Tab>
 
-            <Tab text="Eliminar Socio">
+            <!-- Modificar datos del Socio -->
+
+            <Tab text="Modificar Datos del Socio">
                <content>
                   <VBox alignment="CENTER" spacing="10">
-                     <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Eliminar Socio" />
-                     <GridPane alignment="CENTER" hgap="10" vgap="10">
+                     <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Modificar Datos del Socio" />
+                     <GridPane hgap="10" vgap="10" alignment="CENTER">
                         <children>
-                           <Label text="Número de Socio:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                           <TextField fx:id="txtIdEliminarSocio" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                           <Label text="Número de Socio:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                           <TextField fx:id="txtIdSocioModificar" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                           <Label text="Nuevo Nombre:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                           <TextField fx:id="txtNuevoNombre" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                           <Label text="Nuevo NIF:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                           <TextField fx:id="txtNuevoNIF" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                           <Label text="Nuevo Tipo de Socio:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                           <ComboBox fx:id="cbNuevoTipoSocio" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+
+                           <Label text="ID Nueva Federación:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                           <TextField fx:id="txtNuevaFederacionId" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
                         </children>
-                        <columnConstraints>
-                           <ColumnConstraints />
-                           <ColumnConstraints />
-                        </columnConstraints>
-                        <rowConstraints>
-                           <RowConstraints />
-                        </rowConstraints>
                      </GridPane>
-                     <Button onAction="#eliminarSocio" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Eliminar Socio" />
+                     <Button text="Modificar Datos" onAction="#modificarDatosSocio" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" />
+
                   </VBox>
                </content>
             </Tab>
@@ -297,31 +270,51 @@
                </content>
             </Tab>
 
-            <Tab text="Modificar Socio">
+            <!-- Pestaña de Eliminar Inscricpión -->
+
+            <Tab text="Eliminar Inscripción">
+               <content>
+                  <VBox alignment="TOP_CENTER" spacing="10">
+                     <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Eliminar Inscripción" />
+                     <HBox prefHeight="15.0" prefWidth="500.0" style="-fx-padding: 0 0 0 15;">
+                        <children>
+                           <Label prefHeight="17.0" prefWidth="323.0" text="Indique el identificador de la incripción que quiere eliminar:" />
+                        </children>
+                     </HBox>
+                     <HBox prefHeight="32.0" prefWidth="500.0" style="-fx-padding: 0 0 0 15;">
+                        <children>
+                           <TextField fx:id="txtIdEliminarInscripcion" />
+                        </children>
+                     </HBox>
+                     <HBox alignment="CENTER" prefHeight="75.0" prefWidth="500.0">
+                        <children>
+                           <Button onAction="#eliminarInscripcion" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Eliminar Inscripción" />
+                        </children>
+                     </HBox>
+                  </VBox>
+               </content>
+            </Tab>
+
+            <!-- Pestaña de Eliminar socio -->
+
+            <Tab text="Eliminar Socio">
                <content>
                   <VBox alignment="CENTER" spacing="10">
-                     <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Modificar Datos del Socio" />
-                     <GridPane hgap="10" vgap="10" alignment="CENTER">
+                     <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Eliminar Socio" />
+                     <GridPane alignment="CENTER" hgap="10" vgap="10">
                         <children>
-                           <Label text="Número de Socio:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-                           <TextField fx:id="txtIdSocioModificar" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
-
-                           <Label text="Nuevo Nombre:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-                           <TextField fx:id="txtNuevoNombre" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
-
-                           <Label text="Nuevo NIF:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-                           <TextField fx:id="txtNuevoNIF" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
-
-                           <Label text="Nuevo Tipo de Socio:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-                           <ComboBox fx:id="cbNuevoTipoSocio" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
-
-
-                           <Label text="ID Nueva Federación:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
-                           <TextField fx:id="txtNuevaFederacionId" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+                           <Label text="Número de Socio:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                           <TextField fx:id="txtIdEliminarSocio" GridPane.columnIndex="1" GridPane.rowIndex="0" />
                         </children>
+                        <columnConstraints>
+                           <ColumnConstraints />
+                           <ColumnConstraints />
+                        </columnConstraints>
+                        <rowConstraints>
+                           <RowConstraints />
+                        </rowConstraints>
                      </GridPane>
-                     <Button text="Modificar Datos" onAction="#modificarDatosSocio" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" />
-
+                     <Button onAction="#eliminarSocio" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Eliminar Socio" />
                   </VBox>
                </content>
             </Tab>
@@ -352,21 +345,31 @@
             </Tab>
 
 
-            <Tab text="Consultar Factura Mensual">
+
+            <!-- Pestaña de Eliminar Excursion -->
+
+            <Tab text="Eliminar Excursión">
                <content>
-                  <VBox alignment="CENTER" spacing="15" style="-fx-padding: 10;">
-                     <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Consultar Factura Mensual" />
-                     <HBox spacing="10" alignment="CENTER">
-                        <Label text="Número de Socio:" />
-                        <TextField fx:id="txtNumeroSocioFactura" promptText="Ingresa el número de socio" />
-                        <Button text="Consultar Factura" onAction="#consultarFacturaMensual" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" />
+                  <VBox alignment="TOP_CENTER" spacing="10">
+                     <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Eliminar Excursión" />
+                     <HBox prefHeight="15.0" prefWidth="500.0" style="-fx-padding: 0 0 0 15;">
+                        <children>
+                           <Label prefHeight="17.0" prefWidth="323.0" text="Indique el identificador de la excursión que quiere eliminar:" />
+                        </children>
                      </HBox>
-                     <TextArea fx:id="txtResultadoFactura" editable="false" prefHeight="200" wrapText="true" />
-                  </VBox>
+                     <HBox prefHeight="32.0" prefWidth="500.0" style="-fx-padding: 0 0 0 15;">
+                        <children>
+                           <TextField fx:id="txtIdEliminarExcursion" />
+                        </children>
+                     </HBox>
+                     <HBox alignment="CENTER" prefHeight="75.0" prefWidth="500.0">
+                        <children>
+                           <Button onAction="#eliminarExcursion" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Eliminar Excursión" />
+                        </children>
+                     </HBox>
+                     </VBox>
                </content>
             </Tab>
-
-
 
          </tabs>
       </TabPane>
