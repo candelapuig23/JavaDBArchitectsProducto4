@@ -5,12 +5,15 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.image.ImageView?>
 <VBox alignment="TOP_CENTER" prefHeight="814.0" prefWidth="1088.0" spacing="20" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="JavaDBArchitects.vista.MainViewController">
    <children>
       <!-- Título -->
-      <HBox alignment="CENTER" style="-fx-border-color: black; -fx-border-width: 10;">
+      <HBox alignment="CENTER" style="-fx-background-color: #4CAF50; -fx-padding: 10; -fx-border-radius: 5; -fx-background-radius: 5;-fx-background-color: linear-gradient(to right, #4CAF50, #2E7D32);">
          <children>
-            <Label fx:id="labelTitulo" style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Centro excursionista Senderos y Montañas" />
+            <Label fx:id="labelTitulo"
+                   style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: white; -fx-effect: dropshadow(gaussian, black, 5, 0.5, 2, 2);"
+                   text="Centro excursionista Senderos y Montañas" />
          </children>
       </HBox>
 
@@ -20,9 +23,9 @@
             <!-- Pestaña de Registrar Excursión -->
             <Tab text="Registrar Excursión">
                <content>
-                  <VBox alignment="CENTER" spacing="10">
+                  <VBox alignment="TOP_CENTER" spacing="10">
                      <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Registrar Excursión" />
-                     <GridPane hgap="10" vgap="10">
+                     <GridPane hgap="10" style="-fx-padding: 0 0 0 50;" vgap="10">
                         <columnConstraints>
                            <ColumnConstraints halignment="RIGHT" />
                            <ColumnConstraints halignment="LEFT" />
@@ -63,9 +66,9 @@
             <!-- Pestaña de Registrar Socio -->
             <Tab text="Registrar Socio">
                <content>
-                  <VBox alignment="CENTER" spacing="10">
+                  <VBox alignment="TOP_CENTER" spacing="10">
                      <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Registrar Socio" />
-                     <GridPane hgap="10" vgap="10">
+                     <GridPane hgap="10" style="-fx-padding: 0 0 0 50;" vgap="10">
                         <columnConstraints>
                            <ColumnConstraints halignment="RIGHT" />
                            <ColumnConstraints halignment="LEFT" />
@@ -106,9 +109,9 @@
             <!-- Inscribir en excursión -->
             <Tab text="Inscribir en Excursión">
                <content>
-                  <VBox alignment="CENTER" spacing="10">
+                  <VBox alignment="TOP_CENTER" spacing="10">
                      <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Inscribir en Excursión" />
-                     <GridPane hgap="10" vgap="10">
+                     <GridPane hgap="10" style="-fx-padding: 0 0 0 50;" vgap="10">
                         <columnConstraints>
                            <ColumnConstraints halignment="RIGHT" />
                            <ColumnConstraints halignment="LEFT" />
@@ -137,7 +140,7 @@
             <!-- Listar Excursiones por Fecha -->
             <Tab text="Listar Excursiones por Fecha">
                <content>
-                  <VBox alignment="CENTER" spacing="15">
+                  <VBox alignment="TOP_CENTER" spacing="15" style="-fx-padding: 0 0 0 50;">
                      <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Listar Excursiones por Fecha" />
 
                      <GridPane hgap="10" vgap="10">
@@ -176,7 +179,7 @@
             <!-- Pestaña de Listar Inscripciones -->
             <Tab text="Listar Inscripciones">
                <content>
-                  <VBox alignment="CENTER" spacing="10" style="-fx-padding: 10;">
+                  <VBox alignment="TOP_CENTER" spacing="10" style="-fx-padding: 10;">
                      <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Lista de Inscripciones" />
 
                      <!-- Tabla para mostrar inscripciones -->
@@ -202,12 +205,12 @@
             <!-- Consultar Factura Mensual -->
             <Tab text="Consultar Factura Mensual">
                <content>
-                  <VBox alignment="CENTER" spacing="15" style="-fx-padding: 10;">
+                  <VBox alignment="TOP_CENTER" spacing="15" style="-fx-padding: 10;">
                      <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Consultar Factura Mensual" />
-                     <HBox spacing="10" alignment="CENTER">
+                     <HBox alignment="TOP_LEFT" prefHeight="25.0" prefWidth="860.0" spacing="10" style="-fx-padding: 10" >
                         <Label text="Número de Socio:" />
                         <TextField fx:id="txtNumeroSocioFactura" promptText="Ingresa el número de socio" />
-                        <Button text="Consultar Factura" onAction="#consultarFacturaMensual" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" />
+                        <Button onAction="#consultarFacturaMensual" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Consultar Factura" />
                      </HBox>
                      <TextArea fx:id="txtResultadoFactura" editable="false" prefHeight="200" wrapText="true" />
                   </VBox>
@@ -218,28 +221,39 @@
 
             <Tab text="Modificar Datos del Socio">
                <content>
-                  <VBox alignment="CENTER" spacing="10">
+                  <VBox alignment="TOP_CENTER" spacing="10">
                      <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Modificar Datos del Socio" />
-                     <GridPane hgap="10" vgap="10" alignment="CENTER">
+                     <GridPane alignment="TOP_LEFT" hgap="10" vgap="10" style="-fx-padding: 30;">
                         <children>
-                           <Label text="Número de Socio:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-                           <TextField fx:id="txtIdSocioModificar" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                           <Label text="Número de Socio:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                           <TextField fx:id="txtIdSocioModificar" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-                           <Label text="Nuevo Nombre:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-                           <TextField fx:id="txtNuevoNombre" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                           <Label text="Nuevo Nombre:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                           <TextField fx:id="txtNuevoNombre" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-                           <Label text="Nuevo NIF:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-                           <TextField fx:id="txtNuevoNIF" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                           <Label text="Nuevo NIF:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                           <TextField fx:id="txtNuevoNIF" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-                           <Label text="Nuevo Tipo de Socio:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-                           <ComboBox fx:id="cbNuevoTipoSocio" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                           <Label text="Nuevo Tipo de Socio:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                           <ComboBox fx:id="cbNuevoTipoSocio" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
 
-                           <Label text="ID Nueva Federación:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
-                           <TextField fx:id="txtNuevaFederacionId" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+                           <Label text="ID Nueva Federación:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                           <TextField fx:id="txtNuevaFederacionId" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                         </children>
+                        <columnConstraints>
+                           <ColumnConstraints />
+                           <ColumnConstraints />
+                        </columnConstraints>
+                        <rowConstraints>
+                           <RowConstraints />
+                           <RowConstraints />
+                           <RowConstraints />
+                           <RowConstraints />
+                           <RowConstraints />
+                        </rowConstraints>
                      </GridPane>
-                     <Button text="Modificar Datos" onAction="#modificarDatosSocio" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" />
+                     <Button onAction="#modificarDatosSocio" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Modificar Datos" />
 
                   </VBox>
                </content>
@@ -299,9 +313,9 @@
 
             <Tab text="Eliminar Socio">
                <content>
-                  <VBox alignment="CENTER" spacing="10">
+                  <VBox alignment="TOP_CENTER" spacing="10">
                      <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Eliminar Socio" />
-                     <GridPane alignment="CENTER" hgap="10" vgap="10">
+                     <GridPane alignment="TOP_LEFT" hgap="10" vgap="10" style="-fx-padding: 10;">
                         <children>
                            <Label text="Número de Socio:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
                            <TextField fx:id="txtIdEliminarSocio" GridPane.columnIndex="1" GridPane.rowIndex="0" />
@@ -337,7 +351,7 @@
                            <Label text="Fecha Fin:" />
                            <DatePicker fx:id="dpFechaFin" />
                         </HBox>
-                        <Button style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Mostrar Inscripciones" onAction="#mostrarInscripcionesConFiltros" />
+                        <Button onAction="#mostrarInscripcionesConFiltros" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Mostrar Inscripciones" />
                         <TextArea fx:id="txtResultadosInscripciones" editable="false" prefHeight="200" />
                      </children>
                   </VBox>
@@ -370,7 +384,6 @@
                      </VBox>
                </content>
             </Tab>
-
          </tabs>
       </TabPane>
    </children>
