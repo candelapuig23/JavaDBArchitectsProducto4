@@ -463,5 +463,49 @@ public class MainViewController {
         };
     }
 
+    //metodo mostrarInscripcionesConFiltros
+
+    @FXML
+    private TextField txtNumeroSocioinscripcion;
+    @FXML
+    private DatePicker dpFechaInicio;
+    @FXML
+    private DatePicker dpFechaFin;
+    @FXML
+    private TextArea txtResultadosInscripciones;
+
+    @FXML
+    private void mostrarInscripcionesConFiltros() {
+        try {
+            // Capturar los filtros de la interfaz
+            Integer numeroSocio = null;
+            if (txtNumeroSocio.getText() != null && !txtNumeroSocio.getText().isEmpty()) {
+                numeroSocio = Integer.parseInt(txtNumeroSocio.getText());
+            }
+            LocalDate fechaInicio = dpFechaInicio.getValue();
+            LocalDate fechaFin = dpFechaFin.getValue();
+
+            // Llamar al controlador JPA
+            List<InscripcionEntidad> inscripciones = ControladorJPA.mostrarInscripcionesConFiltrosJPA(numeroSocio, fechaInicio, fechaFin);
+
+            // Mostrar los resultados en el TextArea
+            if (inscripciones == null || inscripciones.isEmpty()) {
+                txtResultadosInscripciones.setText("No se encontraron inscripciones con los filtros seleccionados.");
+            } else {
+                StringBuilder resultados = new StringBuilder();
+                for (InscripcionEntidad inscripcion : inscripciones) {
+                    resultados.append("ID Inscripción: ").append(inscripcion.getIdInscripcion()).append("\n");
+                    resultados.append("Socio: ").append(inscripcion.getSocio().getNombre()).append("\n");
+                    resultados.append("Excursión: ").append(inscripcion.getExcursion().getDescripcion()).append("\n");
+                    resultados.append("Fecha: ").append(inscripcion.getFechaInscripcion()).append("\n");
+                    resultados.append("----------------------\n");
+                }
+                txtResultadosInscripciones.setText(resultados.toString());
+            }
+        } catch (Exception e) {
+            mostrarError("Error al mostrar las inscripciones: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 
 }

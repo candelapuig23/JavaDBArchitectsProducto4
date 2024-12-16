@@ -171,17 +171,9 @@ public class ControladorJPA {
 
     //Opcion 11: Mostrar inscripciones con filtros
 
-    public static void mostrarInscripcionesConFiltrosJPA(Integer numeroSocio, LocalDate fechaInicio, LocalDate fechaFin) {
+    public static List<InscripcionEntidad> mostrarInscripcionesConFiltrosJPA(Integer numeroSocio, LocalDate fechaInicio, LocalDate fechaFin) {
         InscripcionDAOJPA inscripcionDAO = new InscripcionDAOJPA();
-        List<InscripcionEntidad> inscripciones = inscripcionDAO.getInscripcionesConFiltros(numeroSocio, fechaInicio, fechaFin);
-
-        if (inscripciones == null || inscripciones.isEmpty()) {
-            System.out.println("No se encontraron inscripciones con los filtros aplicados.");
-        } else {
-            for (InscripcionEntidad inscripcion : inscripciones) {
-                System.out.println("Inscripción: " + inscripcion);
-            }
-        }
+        return inscripcionDAO.getInscripcionesConFiltros(numeroSocio, fechaInicio, fechaFin);
     }
 
 

@@ -297,6 +297,30 @@
                </content>
             </Tab>
 
+            <!-- Pestaña de Mostrar inscripciones con filtro -->
+
+            <Tab text="Mostrar Inscripciones con Filtros">
+               <content>
+                  <VBox alignment="TOP_CENTER" spacing="10" style="-fx-padding: 10;">
+                     <children>
+                        <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Mostrar Inscripciones con Filtros" />
+                        <HBox spacing="10">
+                           <Label text="Número de Socio:" />
+                           <TextField fx:id="txtNumeroSocioinscripcion" promptText="Número del socio (opcional)" />
+                        </HBox>
+                        <HBox spacing="10">
+                           <Label text="Fecha Inicio:" />
+                           <DatePicker fx:id="dpFechaInicio" />
+                           <Label text="Fecha Fin:" />
+                           <DatePicker fx:id="dpFechaFin" />
+                        </HBox>
+                        <Button style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Mostrar Inscripciones" onAction="#mostrarInscripcionesConFiltros" />
+                        <TextArea fx:id="txtResultadosInscripciones" editable="false" prefHeight="200" />
+                     </children>
+                  </VBox>
+               </content>
+            </Tab>
+
          </tabs>
       </TabPane>
    </children>
