@@ -67,6 +67,12 @@ public class MainViewController {
     @FXML private TableColumn<InscripcionEntidad, String> colDescripcionExcursion;
     @FXML private TableColumn<InscripcionEntidad, LocalDate> colFechaInscripcion;
 
+    //Campo para eliminar un socio
+    @FXML
+    private TextField txtIdEliminarSocio; // Campo de entrada para el ID del socio
+
+
+
     @FXML
     public void initialize() {
         // Inicialización previa
@@ -367,6 +373,38 @@ public class MainViewController {
 
         } catch (Exception e) {
             mostrarError("Error al listar inscripciones: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    //eliminar socio
+
+    @FXML
+    private void eliminarSocio() {
+        String idSocioText = txtIdEliminarSocio.getText();
+
+        // Validar que el campo no esté vacío
+        if (idSocioText == null || idSocioText.trim().isEmpty()) {
+            mostrarError("Por favor, ingresa un número de socio válido.");
+            return;
+        }
+
+        try {
+            int idSocio = Integer.parseInt(idSocioText);
+
+            // Llamada al método del controlador JPA
+            boolean eliminado = ControladorJPA.eliminarSocio(idSocio);
+
+            if (eliminado) {
+                mostrarMensaje("Socio eliminado con éxito.");
+                txtIdEliminarSocio.clear(); // Limpia el campo
+            } else {
+                mostrarError("No se pudo eliminar el socio. Puede que no exista o haya ocurrido un error.");
+            }
+        } catch (NumberFormatException e) {
+            mostrarError("Error: El ID del socio debe ser un número válido.");
+        } catch (Exception e) {
+            mostrarError("Error al eliminar el socio: " + e.getMessage());
             e.printStackTrace();
         }
     }
