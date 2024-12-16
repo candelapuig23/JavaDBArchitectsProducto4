@@ -265,13 +265,18 @@ public class SocioDAOJPA {
             }
             if (nuevoTipoSocio != null && !nuevoTipoSocio.isEmpty()) {
                 socio.setTipoSocio(nuevoTipoSocio);
-            }
-            if (nuevaFederacionId != null) {
-                FederacionEntidad nuevaFederacion = entityManager.find(FederacionEntidad.class, nuevaFederacionId);
-                if (nuevaFederacion == null) {
-                    System.out.println("Error: La federación con ID " + nuevaFederacionId + " no existe.");
-                } else {
-                    socio.setFederacion(nuevaFederacion);
+
+                // Si el tipo de socio no es "Federado", limpiar la federación
+                if ("Estandar".equalsIgnoreCase(nuevoTipoSocio) || "Infantil".equalsIgnoreCase(nuevoTipoSocio)) {
+                    socio.setFederacion(null);
+                } else if ("Federado".equalsIgnoreCase(nuevoTipoSocio) && nuevaFederacionId != null) {
+                    // Si es Federado, actualizar la federación
+                    FederacionEntidad nuevaFederacion = entityManager.find(FederacionEntidad.class, nuevaFederacionId);
+                    if (nuevaFederacion == null) {
+                        System.out.println("Error: La federación con ID " + nuevaFederacionId + " no existe.");
+                    } else {
+                        socio.setFederacion(nuevaFederacion);
+                    }
                 }
             }
 
@@ -291,6 +296,7 @@ public class SocioDAOJPA {
             entityManager.close();
         }
     }
+
 
 
 

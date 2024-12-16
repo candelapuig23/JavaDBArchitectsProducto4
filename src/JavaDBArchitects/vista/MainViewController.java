@@ -72,7 +72,17 @@ public class MainViewController {
     @FXML
     private TextField txtIdEliminarSocio; // Campo de entrada para el ID del socio
 
-
+//campos para modificar un socio
+@FXML
+private TextField txtIdSocioModificar; // Campo para el ID del socio
+    @FXML
+    private TextField txtNuevoNombre;      // Campo para el nuevo nombre
+    @FXML
+    private TextField txtNuevoNIF;         // Campo para el nuevo NIF
+    @FXML
+    private ComboBox<String> cbNuevoTipoSocio; // ComboBox para el nuevo tipo de socio
+    @FXML
+    private TextField txtNuevaFederacionId;    // Campo para el ID de la nueva federación
 
     @FXML
     public void initialize() {
@@ -95,6 +105,9 @@ public class MainViewController {
         colDescripcionExcursion.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getExcursion().getDescripcion()));
         colFechaInscripcion.setCellValueFactory(new PropertyValueFactory<>("fechaInscripcion"));
+
+        //parta la modificacion de datos de un socio:
+        cbNuevoTipoSocio.getItems().addAll("Estandar", "Federado", "Infantil");
     }
 
 
@@ -410,6 +423,7 @@ public class MainViewController {
         }
     }
 
+
     //Mostrar Socios por tipo
 
     @FXML private ComboBox<String> cbTipoSocioBuscar;
@@ -479,8 +493,8 @@ public class MainViewController {
         try {
             // Capturar los filtros de la interfaz
             Integer numeroSocio = null;
-            if (txtNumeroSocio.getText() != null && !txtNumeroSocio.getText().isEmpty()) {
-                numeroSocio = Integer.parseInt(txtNumeroSocio.getText());
+            if (txtNumeroSocioinscripcion.getText() != null && !txtNumeroSocioinscripcion.getText().isEmpty()) {
+                numeroSocio = Integer.parseInt(txtNumeroSocioinscripcion.getText());
             }
             LocalDate fechaInicio = dpFechaInicio.getValue();
             LocalDate fechaFin = dpFechaFin.getValue();
@@ -508,4 +522,51 @@ public class MainViewController {
         }
     }
 
-}
+
+    // MODIFICAR DATOS DE UN SOCIO
+            @FXML
+            private void modificarDatosSocio() {
+                try {
+                    // Obtener y validar el ID del socio
+                    String idSocioText = txtIdSocioModificar.getText();
+                    if (idSocioText == null || idSocioText.trim().isEmpty()) {
+                        mostrarError("Por favor, ingresa el número de socio.");
+                        return;
+                    }
+                    int idSocio = Integer.parseInt(idSocioText);
+
+                    // Obtener los otros campos (permitiendo campos vacíos)
+                    String nuevoNombre = txtNuevoNombre.getText().trim().isEmpty() ? null : txtNuevoNombre.getText();
+                    String nuevoNIF = txtNuevoNIF.getText().trim().isEmpty() ? null : txtNuevoNIF.getText();
+                    String nuevoTipoSocio = cbNuevoTipoSocio.getValue();
+                    Integer nuevaFederacionId = null;
+
+                    if (txtNuevaFederacionId.getText() != null && !txtNuevaFederacionId.getText().trim().isEmpty()) {
+                        nuevaFederacionId = Integer.parseInt(txtNuevaFederacionId.getText());
+                    }
+
+                    // Llamar al controlador JPA
+                    ControladorJPA.modificarDatosSocioJPA(idSocio, nuevoNombre, nuevoNIF, nuevoTipoSocio, nuevaFederacionId);
+
+                    // Mostrar mensaje de éxito
+                    mostrarMensaje("Datos del socio modificados con éxito.");
+                    limpiarFormularioModificarSocio();
+
+                } catch (NumberFormatException ex) {
+                    mostrarError("El ID del socio y la ID de la federación deben ser números válidos.");
+                } catch (Exception ex) {
+                    mostrarError("Error al modificar los datos del socio: " + ex.getMessage());
+                    ex.printStackTrace();
+                }
+            }
+
+// Método para limpiar el formulario
+            private void limpiarFormularioModificarSocio() {
+                txtIdSocioModificar.clear();
+                txtNuevoNombre.clear();
+                txtNuevoNIF.clear();
+                cbNuevoTipoSocio.getSelectionModel().clearSelection();
+                txtNuevaFederacionId.clear();
+            }
+
+        }
