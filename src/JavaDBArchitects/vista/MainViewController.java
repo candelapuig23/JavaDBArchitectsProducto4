@@ -1,7 +1,6 @@
 package JavaDBArchitects.vista;
 
 import JavaDBArchitects.controlador.ControladorJPA;
-import JavaDBArchitects.dao.entidades.SocioEntidad;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import java.time.LocalDate;
@@ -10,6 +9,13 @@ import JavaDBArchitects.dao.entidades.ExcursionEntidad;
 import JavaDBArchitects.dao.entidades.InscripcionEntidad;
 import javafx.beans.property.SimpleStringProperty; // Para SimpleStringProperty
 import java.util.List; // Para List
+import JavaDBArchitects.dao.entidades.SocioEntidad;
+import JavaDBArchitects.dao.jpa.SocioDAOJPA;
+import JavaDBArchitects.dao.jpa.InscripcionDAOJPA;
+import JavaDBArchitects.dao.entidades.SocioEntidad;
+import java.math.BigDecimal;
+
+
 
 
 public class MainViewController {
@@ -72,9 +78,14 @@ public class MainViewController {
     @FXML
     private TextField txtIdEliminarSocio; // Campo de entrada para el ID del socio
 
-//campos para modificar un socio
-@FXML
-private TextField txtIdSocioModificar; // Campo para el ID del socio
+    @FXML
+    private TextField txtNumeroSocioFactura; // Campo de entrada
+    @FXML
+    private TextArea txtResultadoFactura;    // Área de texto para el resultado
+
+    //campos para modificar un socio
+    @FXML
+    private TextField txtIdSocioModificar; // Campo para el ID del socio
     @FXML
     private TextField txtNuevoNombre;      // Campo para el nuevo nombre
     @FXML
@@ -105,9 +116,6 @@ private TextField txtIdSocioModificar; // Campo para el ID del socio
         colDescripcionExcursion.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getExcursion().getDescripcion()));
         colFechaInscripcion.setCellValueFactory(new PropertyValueFactory<>("fechaInscripcion"));
-
-        //parta la modificacion de datos de un socio:
-        cbNuevoTipoSocio.getItems().addAll("Estandar", "Federado", "Infantil");
     }
 
 
@@ -390,25 +398,19 @@ private TextField txtIdSocioModificar; // Campo para el ID del socio
             e.printStackTrace();
         }
     }
-
     //eliminar socio
-
     @FXML
     private void eliminarSocio() {
         String idSocioText = txtIdEliminarSocio.getText();
-
         // Validar que el campo no esté vacío
         if (idSocioText == null || idSocioText.trim().isEmpty()) {
             mostrarError("Por favor, ingresa un número de socio válido.");
             return;
         }
-
         try {
             int idSocio = Integer.parseInt(idSocioText);
-
             // Llamada al método del controlador JPA
             boolean eliminado = ControladorJPA.eliminarSocio(idSocio);
-
             if (eliminado) {
                 mostrarMensaje("Socio eliminado con éxito.");
                 txtIdEliminarSocio.clear(); // Limpia el campo
@@ -423,7 +425,87 @@ private TextField txtIdSocioModificar; // Campo para el ID del socio
         }
     }
 
+    //metodo mostrarInscripcionesConFiltros
+    @FXML
+    private TextField txtNumeroSocioinscripcion;
+    @FXML
+    private DatePicker dpFechaInicio;
+    @FXML
+    private DatePicker dpFechaFin;
+    @FXML
+    private TextArea txtResultadosInscripciones;
+    @FXML
+    private void mostrarInscripcionesConFiltros() {
+        try {
+            // Capturar los filtros de la interfaz
+            Integer numeroSocio = null;
+            if (txtNumeroSocio.getText() != null && !txtNumeroSocio.getText().isEmpty()) {
+                numeroSocio = Integer.parseInt(txtNumeroSocio.getText());
+            }
+            LocalDate fechaInicio = dpFechaInicio.getValue();
+            LocalDate fechaFin = dpFechaFin.getValue();
+            // Llamar al controlador JPA
+            List<InscripcionEntidad> inscripciones = ControladorJPA.mostrarInscripcionesConFiltrosJPA(numeroSocio, fechaInicio, fechaFin);
+            // Mostrar los resultados en el TextArea
+            if (inscripciones == null || inscripciones.isEmpty()) {
+                txtResultadosInscripciones.setText("No se encontraron inscripciones con los filtros seleccionados.");
+            } else {
+                StringBuilder resultados = new StringBuilder();
+                for (InscripcionEntidad inscripcion : inscripciones) {
+                    resultados.append("ID Inscripción: ").append(inscripcion.getIdInscripcion()).append("\n");
+                    resultados.append("Socio: ").append(inscripcion.getSocio().getNombre()).append("\n");
+                    resultados.append("Excursión: ").append(inscripcion.getExcursion().getDescripcion()).append("\n");
+                    resultados.append("Fecha: ").append(inscripcion.getFechaInscripcion()).append("\n");
+                    resultados.append("----------------------\n");
+                }
+                txtResultadosInscripciones.setText(resultados.toString());
+            }
+        } catch (Exception e) {
+            mostrarError("Error al mostrar las inscripciones: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 
+    // MODIFICAR DATOS DE UN SOCIO
+    @FXML
+    private void modificarDatosSocio() {
+        try {
+            // Obtener y validar el ID del socio
+            String idSocioText = txtIdSocioModificar.getText();
+            if (idSocioText == null || idSocioText.trim().isEmpty()) {
+                mostrarError("Por favor, ingresa el número de socio.");
+                return;
+            }
+            int idSocio = Integer.parseInt(idSocioText);
+            // Obtener los otros campos (permitiendo campos vacíos)
+            String nuevoNombre = txtNuevoNombre.getText().trim().isEmpty() ? null : txtNuevoNombre.getText();
+            String nuevoNIF = txtNuevoNIF.getText().trim().isEmpty() ? null : txtNuevoNIF.getText();
+            String nuevoTipoSocio = cbNuevoTipoSocio.getValue();
+            Integer nuevaFederacionId = null;
+            if (txtNuevaFederacionId.getText() != null && !txtNuevaFederacionId.getText().trim().isEmpty()) {
+                nuevaFederacionId = Integer.parseInt(txtNuevaFederacionId.getText());
+            }
+            // Llamar al controlador JPA
+            ControladorJPA.modificarDatosSocioJPA(idSocio, nuevoNombre, nuevoNIF, nuevoTipoSocio, nuevaFederacionId);
+            // Mostrar mensaje de éxito
+            mostrarMensaje("Datos del socio modificados con éxito.");
+            limpiarFormularioModificarSocio();
+        } catch (NumberFormatException ex) {
+            mostrarError("El ID del socio y la ID de la federación deben ser números válidos.");
+        } catch (Exception ex) {
+            mostrarError("Error al modificar los datos del socio: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+    // Método para limpiar el formulario
+    private void limpiarFormularioModificarSocio() {
+        txtIdSocioModificar.clear();
+        txtNuevoNombre.clear();
+        txtNuevoNIF.clear();
+        cbNuevoTipoSocio.getSelectionModel().clearSelection();
+        txtNuevaFederacionId.clear();
+
+    }
     //Mostrar Socios por tipo
 
     @FXML private ComboBox<String> cbTipoSocioBuscar;
@@ -443,8 +525,11 @@ private TextField txtIdSocioModificar; // Campo para el ID del socio
             int tipoSocio = convertirTipoSocio(tipoSeleccionado);
 
             // Llamar al controlador para obtener los socios
+            ControladorJPA.listarSociosPorTipoJPA(tipoSocio);
             List<SocioEntidad> sociosEntidad = ControladorJPA.listarSociosPorTipoJPA(tipoSocio);
 
+            // Mostrar los resultados en el TextArea
+            txtResultadosSocios.setText("Resultados cargados correctamente. Revisa tu consola para detalles.");
             // Construir el texto para mostrar en el TextArea
             if (sociosEntidad == null || sociosEntidad.isEmpty()) {
                 txtResultadosSocios.setText("No se encontraron socios para el tipo seleccionado.");
@@ -477,96 +562,32 @@ private TextField txtIdSocioModificar; // Campo para el ID del socio
         };
     }
 
-    //metodo mostrarInscripcionesConFiltros
+    @FXML
+    public void consultarFacturaMensual() {
+        String numeroSocioText = txtNumeroSocioFactura.getText();
 
-    @FXML
-    private TextField txtNumeroSocioinscripcion;
-    @FXML
-    private DatePicker dpFechaInicio;
-    @FXML
-    private DatePicker dpFechaFin;
-    @FXML
-    private TextArea txtResultadosInscripciones;
-
-    @FXML
-    private void mostrarInscripcionesConFiltros() {
         try {
-            // Capturar los filtros de la interfaz
-            Integer numeroSocio = null;
-            if (txtNumeroSocioinscripcion.getText() != null && !txtNumeroSocioinscripcion.getText().isEmpty()) {
-                numeroSocio = Integer.parseInt(txtNumeroSocioinscripcion.getText());
+            if (numeroSocioText == null || numeroSocioText.trim().isEmpty()) {
+                mostrarError("Por favor, ingresa un número de socio válido.");
+                return;
             }
-            LocalDate fechaInicio = dpFechaInicio.getValue();
-            LocalDate fechaFin = dpFechaFin.getValue();
 
-            // Llamar al controlador JPA
-            List<InscripcionEntidad> inscripciones = ControladorJPA.mostrarInscripcionesConFiltrosJPA(numeroSocio, fechaInicio, fechaFin);
-
-            // Mostrar los resultados en el TextArea
-            if (inscripciones == null || inscripciones.isEmpty()) {
-                txtResultadosInscripciones.setText("No se encontraron inscripciones con los filtros seleccionados.");
-            } else {
-                StringBuilder resultados = new StringBuilder();
-                for (InscripcionEntidad inscripcion : inscripciones) {
-                    resultados.append("ID Inscripción: ").append(inscripcion.getIdInscripcion()).append("\n");
-                    resultados.append("Socio: ").append(inscripcion.getSocio().getNombre()).append("\n");
-                    resultados.append("Excursión: ").append(inscripcion.getExcursion().getDescripcion()).append("\n");
-                    resultados.append("Fecha: ").append(inscripcion.getFechaInscripcion()).append("\n");
-                    resultados.append("----------------------\n");
-                }
-                txtResultadosInscripciones.setText(resultados.toString());
-            }
+            int numeroSocio = Integer.parseInt(numeroSocioText);
+            // Llamada corregida al método estático
+            String resultado = ControladorJPA.consultarFacturaMensualJPA(numeroSocio);
+            txtResultadoFactura.setText(resultado);
+        } catch (NumberFormatException e) {
+            mostrarError("El número de socio debe ser un número válido.");
         } catch (Exception e) {
-            mostrarError("Error al mostrar las inscripciones: " + e.getMessage());
+            mostrarError("Error al consultar la factura mensual: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
 
-    // MODIFICAR DATOS DE UN SOCIO
-            @FXML
-            private void modificarDatosSocio() {
-                try {
-                    // Obtener y validar el ID del socio
-                    String idSocioText = txtIdSocioModificar.getText();
-                    if (idSocioText == null || idSocioText.trim().isEmpty()) {
-                        mostrarError("Por favor, ingresa el número de socio.");
-                        return;
-                    }
-                    int idSocio = Integer.parseInt(idSocioText);
 
-                    // Obtener los otros campos (permitiendo campos vacíos)
-                    String nuevoNombre = txtNuevoNombre.getText().trim().isEmpty() ? null : txtNuevoNombre.getText();
-                    String nuevoNIF = txtNuevoNIF.getText().trim().isEmpty() ? null : txtNuevoNIF.getText();
-                    String nuevoTipoSocio = cbNuevoTipoSocio.getValue();
-                    Integer nuevaFederacionId = null;
+}
 
-                    if (txtNuevaFederacionId.getText() != null && !txtNuevaFederacionId.getText().trim().isEmpty()) {
-                        nuevaFederacionId = Integer.parseInt(txtNuevaFederacionId.getText());
-                    }
 
-                    // Llamar al controlador JPA
-                    ControladorJPA.modificarDatosSocioJPA(idSocio, nuevoNombre, nuevoNIF, nuevoTipoSocio, nuevaFederacionId);
 
-                    // Mostrar mensaje de éxito
-                    mostrarMensaje("Datos del socio modificados con éxito.");
-                    limpiarFormularioModificarSocio();
 
-                } catch (NumberFormatException ex) {
-                    mostrarError("El ID del socio y la ID de la federación deben ser números válidos.");
-                } catch (Exception ex) {
-                    mostrarError("Error al modificar los datos del socio: " + ex.getMessage());
-                    ex.printStackTrace();
-                }
-            }
-
-// Método para limpiar el formulario
-            private void limpiarFormularioModificarSocio() {
-                txtIdSocioModificar.clear();
-                txtNuevoNombre.clear();
-                txtNuevoNIF.clear();
-                cbNuevoTipoSocio.getSelectionModel().clearSelection();
-                txtNuevaFederacionId.clear();
-            }
-
-        }

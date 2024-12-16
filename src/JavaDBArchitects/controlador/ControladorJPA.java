@@ -80,44 +80,37 @@ public class ControladorJPA {
 
 
 
-    public static void consultarFacturaMensualJPA(int numeroSocio) {
+    public static String consultarFacturaMensualJPA(int numeroSocio) {
         SocioDAOJPA socioDAO = new SocioDAOJPA();
         InscripcionDAOJPA inscripcionDAO = new InscripcionDAOJPA();
 
         try {
             // Obtener el socio
-            SocioEntidad socio = socioDAO.obtenerSocioPorNumero(numeroSocio); // Método de SocioDAOJPA
+            SocioEntidad socio = socioDAO.obtenerSocioPorNumero(numeroSocio);
             if (socio == null) {
-                System.out.println("Error: El socio no existe.");
-                return;
+                return "Error: El socio no existe.";
             }
 
-            // Obtener la cuota mensual directamente desde el socio
+            // Obtener la cuota mensual y calcular el total
             BigDecimal cuotaMensual = socio.getCuotaMensual();
             BigDecimal totalFactura = cuotaMensual != null ? cuotaMensual : BigDecimal.ZERO;
 
-            // Obtener las inscripciones asociadas al socio
+            // Obtener las inscripciones y calcular el total
             List<InscripcionEntidad> inscripciones = inscripcionDAO.getInscripcionesBySocio(numeroSocio);
-
-            // Calcular el total de la factura basado en las inscripciones
             for (InscripcionEntidad inscripcion : inscripciones) {
-                ExcursionEntidad excursion = inscripcion.getExcursion();
-                BigDecimal precioExcursion = BigDecimal.valueOf(excursion.getPrecio());
+                BigDecimal precioExcursion = BigDecimal.valueOf(inscripcion.getExcursion().getPrecio());
                 if ("FEDERADO".equalsIgnoreCase(socio.getTipoSocio())) {
-                    totalFactura = totalFactura.add(precioExcursion.multiply(BigDecimal.valueOf(0.9))); // Descuento del 10% para federados
+                    totalFactura = totalFactura.add(precioExcursion.multiply(BigDecimal.valueOf(0.9)));
                 } else {
-                    totalFactura = totalFactura.add(precioExcursion); // Precio completo para otros tipos de socios
+                    totalFactura = totalFactura.add(precioExcursion);
                 }
             }
 
-            // Mostrar el total de la factura mensual
-            System.out.println("Factura mensual para el socio " + numeroSocio + ": " + totalFactura + "€");
+            return "Factura mensual para el socio " + numeroSocio + ": " + totalFactura + "€";
         } catch (Exception e) {
-            System.err.println("Error al calcular la factura mensual: " + e.getMessage());
-            e.printStackTrace();
+            return "Error al calcular la factura mensual: " + e.getMessage();
         }
     }
-
 
     //Opción 7: Modificar datos socio
 
@@ -195,6 +188,8 @@ public class ControladorJPA {
             return false; // Error inesperado
         }
     }
+
+
 }
 
 
