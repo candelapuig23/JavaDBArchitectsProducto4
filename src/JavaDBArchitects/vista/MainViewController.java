@@ -1,6 +1,7 @@
 package JavaDBArchitects.vista;
 
 import JavaDBArchitects.controlador.ControladorJPA;
+import JavaDBArchitects.dao.entidades.SocioEntidad;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import java.time.LocalDate;
@@ -428,10 +429,25 @@ public class MainViewController {
             int tipoSocio = convertirTipoSocio(tipoSeleccionado);
 
             // Llamar al controlador para obtener los socios
-            ControladorJPA.listarSociosPorTipoJPA(tipoSocio);
+            List<SocioEntidad> sociosEntidad = ControladorJPA.listarSociosPorTipoJPA(tipoSocio);
 
-            // Mostrar los resultados en el TextArea
-            txtResultadosSocios.setText("Resultados cargados correctamente. Revisa tu consola para detalles.");
+            // Construir el texto para mostrar en el TextArea
+            if (sociosEntidad == null || sociosEntidad.isEmpty()) {
+                txtResultadosSocios.setText("No se encontraron socios para el tipo seleccionado.");
+            } else {
+                StringBuilder resultados = new StringBuilder();
+                for (SocioEntidad socio : sociosEntidad) {
+                    resultados.append("ID: ").append(socio.getNumeroSocio()).append("\n");
+                    resultados.append("Nombre: ").append(socio.getNombre()).append("\n");
+                    resultados.append("Tipo: ").append(socio.getTipoSocio()).append("\n");
+                    resultados.append("NIF: ").append(socio.getNif()).append("\n");
+                    if (socio.getFederacion() != null) {
+                        resultados.append("Federación: ").append(socio.getFederacion().getNombre()).append("\n");
+                    }
+                    resultados.append("----------------------\n");
+                }
+                txtResultadosSocios.setText(resultados.toString());
+            }
 
         } catch (Exception e) {
             mostrarError("Error al mostrar los socios: " + e.getMessage());

@@ -6,7 +6,7 @@ import JavaDBArchitects.dao.jpa.SocioDAOJPA;
 import JavaDBArchitects.dao.entidades.SocioEntidad;
 import JavaDBArchitects.dao.entidades.InscripcionEntidad;
 import JavaDBArchitects.dao.entidades.ExcursionEntidad;
-import JavaDBArchitects.vista.MenuPrincipal;
+
 import java.math.BigDecimal;
 import java.util.List;
 import java.time.LocalDate;
@@ -119,12 +119,6 @@ public class ControladorJPA {
     }
 
 
-
-
-
-
-
-
     //Opción 7: Modificar datos socio
 
     public static void modificarDatosSocioJPA(int numeroSocio, String nuevoNombre, String nuevoNIF, String nuevoTipoSocio, Integer nuevaFederacionId) {
@@ -141,11 +135,13 @@ public class ControladorJPA {
 
     private static final SocioDAOJPA socioDAOJPA = new SocioDAOJPA();
 
-    public static void listarSociosPorTipoJPA(int tipoSocio) {
+    public static List<SocioEntidad> listarSociosPorTipoJPA(int tipoSocio) {
         try {
-            socioDAOJPA.listarSociosPorTipoJPA(tipoSocio);
+            // Llamar al DAO y devolver la lista de socios
+            return socioDAOJPA.listarSociosPorTipoJPA(tipoSocio);
         } catch (Exception e) {
             System.err.println("Error al listar socios por tipo: " + e.getMessage());
+            return null; // En caso de error, devuelve null
         }
     }
 

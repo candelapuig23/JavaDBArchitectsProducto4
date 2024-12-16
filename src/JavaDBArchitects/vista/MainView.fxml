@@ -284,15 +284,15 @@
                      <ComboBox fx:id="cbTipoSocioBuscar" promptText="Selecciona el tipo de socio">
                         <items>
                            <FXCollections fx:factory="observableArrayList">
-                              <String fx:value="Estandar"/>
-                              <String fx:value="Federado"/>
-                              <String fx:value="Infantil"/>
+                              <String fx:value="Estandar" />
+                              <String fx:value="Federado" />
+                              <String fx:value="Infantil" />
                            </FXCollections>
                         </items>
                      </ComboBox>
                   </HBox>
-                     <Button text="Mostrar Socios" onAction="#mostrarSociosPorTipo" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" />
-                     <TextArea fx:id="txtResultadosSocios" editable="false" prefHeight="200" />
+                     <Button onAction="#mostrarSociosPorTipo" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Mostrar Socios" />
+                     <TextArea fx:id="txtResultadosSocios" editable="false" prefHeight="205.0" prefWidth="1073.0" />
                   </VBox>
                </content>
             </Tab>
