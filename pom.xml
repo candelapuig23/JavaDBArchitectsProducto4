@@ -3,8 +3,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.uoc.project</groupId> <!-- Cambia "org.example" por algo más representativo -->
-  <artifactId>JavaDBAProducto4</artifactId> <!-- Mantén el nombre o cámbialo si es necesario -->
+  <groupId>com.uoc.project</groupId>
+  <artifactId>JavaDBAProducto4</artifactId>
   <version>1.0-SNAPSHOT</version>
   <name>JavaDBAProducto4</name>
 
@@ -87,7 +87,7 @@
         <artifactId>javafx-maven-plugin</artifactId>
         <version>0.0.8</version>
         <configuration>
-          <mainClass>JavaDBArchitects.vista.JavaFXTest</mainClass>
+          <mainClass>JavaDBArchitects.Main</mainClass>
         </configuration>
       </plugin>
     </plugins>
